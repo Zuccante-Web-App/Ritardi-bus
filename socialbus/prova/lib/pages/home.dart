@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prova/widget/containerbus.dart';
 import 'package:prova/data_storage/bus.dart';
-
+import 'package:prova/widget/menu.dart';
 List<Bus> allbus = [
   Bus(orari: 'http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-4.pdf', direzione: 'VENEZIA-FAVARO ALTINA', nome: '4', ora: '12:00'),
   Bus(orari: 'http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-4L.pdf', direzione: 'VENEZIA-MESTRE CENTRO', nome: '4L', ora: '11:10'),
@@ -29,6 +29,7 @@ class _HomeState extends State<Home> {
     return MaterialApp(
       title: 'ciao',
       home: Scaffold(
+        drawer: Menu(),
         appBar: AppBar(
           backgroundColor: Colors.green[700],
           title: Row(
