@@ -20,7 +20,7 @@ class ContainerBus extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.green[700],
           borderRadius: BorderRadius.circular(4),
-          border: Border.all(width: 2.0, color: Colors.blue[900]),
+          border: Border.all(width: 3.0,),
           boxShadow: [
             BoxShadow(
               color: Colors.black45,

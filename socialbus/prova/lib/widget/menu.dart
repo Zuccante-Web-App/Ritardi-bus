@@ -38,7 +38,7 @@ class Menu extends StatelessWidget {
                   padding: const EdgeInsets.all(12.0),
                   child: Row(
                     children: <Widget>[
-                      Icon(Icons.local_movies),
+                      Icon(Icons.attach_money),
                       Text(
                         'BIGLIETTI & COSTI',
                         style: TextStyle(

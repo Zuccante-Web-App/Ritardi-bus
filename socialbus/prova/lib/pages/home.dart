@@ -29,6 +29,7 @@ class _HomeState extends State<Home> {
     return MaterialApp(
       title: 'ciao',
       home: Scaffold(
+        backgroundColor: Colors.cyan[800],
         drawer: Menu(),
         appBar: AppBar(
           backgroundColor: Colors.green[700],
@@ -46,23 +47,25 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        body: Container(
-            width: MediaQuery.of(context).size.width *0.75,
-            child: ListView.builder(
-              
-                itemCount: allbus.length,
-                itemBuilder: (BuildContext ctxt, int index) {
-        return GestureDetector(
-        onTap: () {
-          Navigator.of(context).pushNamed('/paginaBus',arguments: allbus[index]);
-        },
-                  child: new ContainerBus(
-              orari: allbus[index].orari,
-              nomeBus: allbus[index].nome,
-              capolinea: allbus[index].direzione),
-        );
-                }),
-          ),
+        body: Center(
+          child: Container(
+              width: MediaQuery.of(context).size.width *0.75,
+              child: ListView.builder(
+                
+                  itemCount: allbus.length,
+                  itemBuilder: (BuildContext ctxt, int index) {
+          return GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed('/paginaBus',arguments: allbus[index]);
+          },
+                    child: new ContainerBus(
+                orari: allbus[index].orari,
+                nomeBus: allbus[index].nome,
+                capolinea: allbus[index].direzione),
+          );
+                  }),
+            ),
+        ),
       ),
     );
   }
