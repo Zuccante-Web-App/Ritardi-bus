@@ -113,7 +113,7 @@ class _HomeState extends State<Home> {
               end: Alignment.bottomLeft,
               colors: [
                 Colors.green,
-                Colors.white,
+                
                 Colors.indigo,
               ],
             ),
