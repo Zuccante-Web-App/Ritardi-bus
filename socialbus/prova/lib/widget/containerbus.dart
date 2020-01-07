@@ -15,17 +15,17 @@ class ContainerBus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+      padding: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 0.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.green[700],
-          borderRadius: BorderRadius.circular(4),
+          color: Colors.blueAccent[100],
+          borderRadius: BorderRadius.circular(10),
           border: Border.all(width: 3.0,),
           boxShadow: [
             BoxShadow(
               color: Colors.black45,
-              spreadRadius: 5.0,
-              blurRadius: 5.0,
+              spreadRadius: 2.0,
+              blurRadius: 2.0,
             )
           ],
         ),
@@ -35,24 +35,12 @@ class ContainerBus extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
 
-              Text(
-                'bus $nomeBus',
-                style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900),
+              Center(
+                child: Text(
+                  '$nomeBus',
+                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900),
+                ),
               ),
-              Text(
-                'capolinea :\n $capolinea',
-                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w900),
-              ),
-              IconButton(
-                icon: Icon(Icons.access_time),
-                onPressed: () async {
-                  if (await canLaunch(orari)) {
-                    await launch(orari);
-                  } else {
-                    throw 'Could not launch $orari';
-                  }
-                },
-              )
             ],
           ),
         ),
