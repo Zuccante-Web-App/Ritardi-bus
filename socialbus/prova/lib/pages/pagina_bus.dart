@@ -11,19 +11,12 @@ class PaginaBus extends StatefulWidget {
 }
 
 class _PaginaBusState extends State<PaginaBus> {
-  Future<void> orari(Bus bus) async {
-    {
-      Response x = await get(bus.orari);
-      print(x.body.toString());
-    }
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
     Bus bus = ModalRoute.of(context).settings.arguments;
     String nomeBus = bus.nome;
-    orari(bus);
     return Container(
       child: Scaffold(
           appBar: AppBar(
