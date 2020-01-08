@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             // Box decoration takes a gradient
-            color: Colors.white10,
+            color: Colors.grey[200],
           ),
           child: Center(
             child: Container(

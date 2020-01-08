@@ -19,8 +19,8 @@ class ContainerBus extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(width: 5.0,color: Colors.green[700]),
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(width: 2.0,color: Colors.green[700]),
           boxShadow: [
             BoxShadow(
               color: Colors.black45,
