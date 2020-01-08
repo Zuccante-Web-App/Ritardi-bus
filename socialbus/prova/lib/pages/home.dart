@@ -1,76 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:prova/widget/containerbus.dart';
 import 'package:prova/data_storage/bus.dart';
+import 'package:prova/widget/containerbus.dart';
+import 'package:prova/data_storage/allbus.dart';
 import 'package:prova/widget/menu.dart';
-
-List<Bus> allbus = [
-  Bus(
-      orari:
-          'http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-4.pdf',
-      direzione: 'VENEZIA-FAVARO ALTINA',
-      nome: '4',
-      ora: '12:00'),
-  Bus(
-      orari:
-          'http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-4L.pdf',
-      direzione: 'VENEZIA-MESTRE CENTRO',
-      nome: '4L',
-      ora: '11:10'),
-  Bus(
-      orari:
-          'http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-9.pdf',
-      direzione: 'SAN LIBERALE- VIA TEVERE',
-      nome: '9',
-      ora: '13:50'),
-  Bus(
-      orari:
-          'http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-9H.pdf',
-      direzione: 'OSPEDALE-ZENDRINI',
-      nome: '9H',
-      ora: '11:10'),
-  Bus(
-      orari:
-          'http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-20.pdf',
-      direzione: 'MARTELLAGO -MESTRE CENTRO',
-      nome: '20',
-      ora: '13:50'),
-  Bus(
-      orari:
-          'http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-21.pdf',
-      direzione: 'MARTELLAGO -MESTRE CENTRO',
-      nome: '21',
-      ora: '11:10'),
-  Bus(
-      orari:
-          'http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-31H.pdf',
-      direzione: 'OSPEDALE -MESTRE CENTRO',
-      nome: '31H',
-      ora: '13:50'),
-  Bus(
-      orari:
-          'http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-32H.pdf',
-      direzione: 'OSPEDALE -MESTRE CENTRO',
-      nome: '32H',
-      ora: '12:00'),
-  Bus(
-      orari:
-          'http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-48H.pdf',
-      direzione: 'MARTELLAGO -MESTRE CENTRO',
-      nome: '48H',
-      ora: '11:10'),
-  Bus(
-      orari:
-          'http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-T1.pdf',
-      direzione: 'VENEZIA -MESTRE CENTRO',
-      nome: 'T1',
-      ora: '13:50'),
-  Bus(
-      orari:
-          'http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-T2.pdf',
-      direzione: 'VIA SALAMONIO -MESTRE CENTRO',
-      nome: 'T2',
-      ora: '11:10'),
-];
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -80,12 +12,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  AllBus allBus = new AllBus();
+
   @override
   Widget build(BuildContext context) {
+    List<Bus> allbus = allBus.getAllBus();
     return MaterialApp(
-      title: 'ciao',
+      title: 'SocialBus',
       home: Scaffold(
-        backgroundColor: Colors.white,
         drawer: Menu(),
         appBar: AppBar(
           backgroundColor: Colors.green[700],
@@ -95,7 +29,7 @@ class _HomeState extends State<Home> {
                 Icons.directions_bus,
               ),
               Text(
-                'SocailBus',
+                'SocialBus',
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -107,16 +41,7 @@ class _HomeState extends State<Home> {
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             // Box decoration takes a gradient
-            gradient: LinearGradient(
-              // Where the linear gradient begins and ends
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Colors.green,
-                
-                Colors.indigo,
-              ],
-            ),
+            color: Colors.white10,
           ),
           child: Center(
             child: Container(

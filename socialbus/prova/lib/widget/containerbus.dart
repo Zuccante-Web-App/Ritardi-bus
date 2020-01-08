@@ -18,9 +18,9 @@ class ContainerBus extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 0.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.blueAccent[100],
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(width: 3.0,),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(width: 5.0,color: Colors.green[700]),
           boxShadow: [
             BoxShadow(
               color: Colors.black45,
@@ -38,7 +38,7 @@ class ContainerBus extends StatelessWidget {
               Center(
                 child: Text(
                   '$nomeBus',
-                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900),
+                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900,color: Color.fromRGBO(1, 87, 164, 1)),
                 ),
               ),
             ],

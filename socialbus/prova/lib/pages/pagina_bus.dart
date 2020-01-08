@@ -13,7 +13,7 @@ class PaginaBus extends StatefulWidget {
 class _PaginaBusState extends State<PaginaBus> {
   Future<void> orari() async {
     {
-      //Response x = await get('http://actv.avmspa.it/it/content/linee-urbane-0');
+
       //Map data =jsonDecode(x.body);
      // print(data);
     }
