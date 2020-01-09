@@ -13,9 +13,9 @@ class PaginaBus extends StatefulWidget {
 class _PaginaBusState extends State<PaginaBus> {
   Future<void> orari() async {
     {
-
-      //Map data =jsonDecode(x.body);
-     // print(data);
+      String data = await DefaultAssetBundle.of(context).loadString("assets/json/routes.json");
+      Map x = jsonDecode(data);
+      print(x);
     }
   }
 
