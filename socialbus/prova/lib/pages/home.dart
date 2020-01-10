@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:prova/data_storage/bus.dart';
+import 'package:prova/data_storage/rutes.dart';
 import 'package:prova/widget/containerbus.dart';
 import 'package:prova/data_storage/allbus.dart';
 import 'package:prova/widget/menu.dart';
@@ -53,25 +57,36 @@ class _HomeState extends State<Home> {
                   0,
                   0,
                 ),
-                child: GridView.builder(
-                  itemCount: allbus.length,
-                  itemBuilder: (BuildContext ctxt, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushNamed('/paginaBus', arguments: allbus[index]);
-                      },
-                      child: new ContainerBus(
-                          orari: allbus[index].orari,
-                          nomeBus: allbus[index].nome,
-                          capolinea: allbus[index].direzione),
-                    );
+                child: FutureBuilder(
+                  future: loadRoutes(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return new GridView.builder(
+                        itemCount: allbus.length,
+                        itemBuilder: (BuildContext ctxt, int index) {
+                          final List<APIRoute> routes=snapshot.data;
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/paginaBus',
+                                  arguments: snapshot.data);
+                            },
+                            child: new ContainerBus(
+                                nomeBus:   routes[index].routeShortName,
+                                capolinea: routes[index].routeLongName,
+                                    ),
+                          );
+                        },
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 8.0,
+                          mainAxisSpacing: 5.0,
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return new Text("${snapshot.error}");
+                    }
+                    return new CircularProgressIndicator();
                   },
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 8.0,
-                    mainAxisSpacing: 5.0,
-                  ),
                 ),
               ),
             ),
@@ -79,5 +94,22 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  Future<String> _loadRutesAsset() async {
+    return await rootBundle.loadString('assets/json/routes.json');
+  }
+
+  Future<List<APIRoute>> loadRoutes() async {
+    String jsonString = await _loadRutesAsset();
+
+    final Iterable jsonResponse = json.decode(jsonString);
+    List<APIRoute> routes = [];
+    routes = jsonResponse.map((route) => APIRoute.fromJson(route)).toList();
+    return routes;
+  }
+
+  Future wait(int seconds) {
+    return new Future.delayed(Duration(seconds: seconds), () => {});
   }
 }
