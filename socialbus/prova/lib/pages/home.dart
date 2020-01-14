@@ -20,9 +20,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     List<Bus> allbus = allBus.getAllBus();
-    return MaterialApp(
-      title: 'SocialBus',
-      home: Scaffold(
+    return Scaffold(
         drawer: Menu(),
         appBar: AppBar(
           backgroundColor: Colors.green[700],
@@ -91,7 +89,6 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-      ),
     );
   }
 

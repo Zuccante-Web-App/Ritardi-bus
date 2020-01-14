@@ -12,12 +12,12 @@ class _PaginaBusState extends State<PaginaBus> {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
-    APIRoute bus = ModalRoute.of(context).settings.arguments;
-    String nomeBus = bus.routeShortName;
+  //  APIRoute bus = ModalRoute.of(context).settings.arguments;
+  //  String nomeBus = bus.routeShortName;
     return Container(
       child: Scaffold(
           appBar: AppBar(
-            title: Text('BUS $nomeBus'),
+            title: Text('BUS 11'),
             backgroundColor: Colors.green[700],
           ),
           body: PageView(
