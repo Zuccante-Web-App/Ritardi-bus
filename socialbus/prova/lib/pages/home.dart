@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return new GridView.builder(
-                      itemCount: allbus.length,
+                      itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         final List<APIRoute> routes = snapshot.data;
                         return GestureDetector(
@@ -105,6 +105,7 @@ class _HomeState extends State<Home> {
     final Iterable jsonResponse = json.decode(jsonString);
     List<APIRoute> routes = [];
     routes = jsonResponse.map((route) => APIRoute.fromJson(route)).toList();
+
     return routes;
   }
 
