@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prova/data_storage/bus.dart';
-import 'dart:convert';
+import "package:prova/data_storage/apirutes.dart";
 
 class PaginaBus extends StatefulWidget {
   PaginaBus({Key key}) : super(key: key);
@@ -10,20 +9,11 @@ class PaginaBus extends StatefulWidget {
 }
 
 class _PaginaBusState extends State<PaginaBus> {
-  Future<void> orari() async {
-    {
-      String data = await DefaultAssetBundle.of(context).loadString("assets/json/routes.json");
-      Map x = jsonDecode(data);
-      print(x);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
-    Bus bus = ModalRoute.of(context).settings.arguments;
-    String nomeBus = bus.nome;
-    orari();
+    APIRoute bus = ModalRoute.of(context).settings.arguments;
+    String nomeBus = bus.routeShortName;
     return Container(
       child: Scaffold(
           appBar: AppBar(

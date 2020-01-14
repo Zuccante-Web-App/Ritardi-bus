@@ -1,9 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:prova/data_storage/bus.dart';
-import 'package:prova/data_storage/rutes.dart';
+import 'package:prova/data_storage/apirutes.dart';
 import 'package:prova/widget/containerbus.dart';
 import 'package:prova/data_storage/allbus.dart';
 import 'package:prova/widget/menu.dart';
@@ -57,6 +56,7 @@ class _HomeState extends State<Home> {
                   0,
                   0,
                 ),
+                //builder di "container_bus da flie json"
                 child: FutureBuilder(
                   future: loadRoutes(),
                   builder: (context, snapshot) {
@@ -67,8 +67,7 @@ class _HomeState extends State<Home> {
                           final List<APIRoute> routes=snapshot.data;
                           return GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pushNamed('/paginaBus',
-                                  arguments: snapshot.data);
+                              Navigator.pushNamed(context, '/paginaBus', arguments: routes[index]);
                             },
                             child: new ContainerBus(
                                 nomeBus:   routes[index].routeShortName,
@@ -96,10 +95,12 @@ class _HomeState extends State<Home> {
     );
   }
 
+//routes asset Json file 
   Future<String> _loadRutesAsset() async {
     return await rootBundle.loadString('assets/json/routes.json');
   }
 
+//jsons file to list of ApiRoutes
   Future<List<APIRoute>> loadRoutes() async {
     String jsonString = await _loadRutesAsset();
 
