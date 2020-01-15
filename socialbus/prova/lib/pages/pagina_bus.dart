@@ -27,6 +27,7 @@ class _PaginaBusState extends State<PaginaBus> {
                 String tratta=bus[index].routeLongName.toUpperCase();
                 return Scaffold(
                   appBar: AppBar(
+                    automaticallyImplyLeading: false,
                     title: Text('BUS $tratta',
                     style: TextStyle(fontSize: 12),
                     ),
@@ -42,8 +43,11 @@ class _PaginaBusState extends State<PaginaBus> {
                           fit: BoxFit.fill,
                         ),
                       ),
-                      Container(
-                        child: Chat(),
+                      Center(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          child: Chat(),
+                        ),
                       )
                     ],
                   ),

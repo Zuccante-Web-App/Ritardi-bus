@@ -21,7 +21,9 @@ class _ChatState extends State<Chat> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      
       appBar : new AppBar(
+        automaticallyImplyLeading: false,
         title: new Text("ChatApplication"),
         elevation: 
         Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 6.0,
