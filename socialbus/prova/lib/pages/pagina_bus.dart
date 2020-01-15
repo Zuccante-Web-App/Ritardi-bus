@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import "package:prova/data_storage/apirutes.dart";
-
 class PaginaBus extends StatefulWidget {
   PaginaBus({Key key}) : super(key: key);
 
@@ -27,7 +26,7 @@ class _PaginaBusState extends State<PaginaBus> {
                 return Scaffold(
                   appBar: AppBar(
                     title: Text('BUS $tratta',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 10),
                     ),
                     backgroundColor: Colors.green[700],
                   ),
@@ -53,21 +52,3 @@ class _PaginaBusState extends State<PaginaBus> {
     );
   }
 }
-
-/* Stack(
-                  children: <Widget>[
-                    Center(
-                      child: new Image.asset(
-                        'assets/image/kent-vista-frontale1.jpg',
-                        width: _size.width,
-                        height: _size.height,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    Container(
-                      child: ListView(
-                        children: <Widget>[],
-                      ),
-                    )
-                  ],
-                ),*/
