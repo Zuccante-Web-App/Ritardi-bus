@@ -19,18 +19,12 @@ class _ChatState extends State<Chat> with TickerProviderStateMixin {
   bool _isWriting = false;
 
   @override
-  // TODO: implement widget
-
-  
-  
-  
-  @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar : new AppBar(
         title: new Text("ChatApplication"),
         elevation: 
-        Theme.of(ctx).platform == TargetPlatform.iOS ? 0.0 : 6.0,
+        Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 6.0,
         ),
         body: new Column(children: <Widget>[
           new Flexible(
@@ -43,7 +37,7 @@ class _ChatState extends State<Chat> with TickerProviderStateMixin {
           new Divider(height: 1.0),
           new Container(
             child: _buildComposer(),
-            decoration: new BoxDecoration(color: Theme.of(ctx).cardColor),
+            decoration: new BoxDecoration(color: Theme.of(context).cardColor),
           )
         ]),
     );
@@ -77,7 +71,7 @@ class _ChatState extends State<Chat> with TickerProviderStateMixin {
                 : null
               )
               : new CupertinoButton(
-                icon: new Icon(Icons.message),
+                child: new Icon(Icons.message),
                 onPressed: _isWriting
                 ? () => _submitMsg(_textController.text)
                 : null,
@@ -93,6 +87,8 @@ class _ChatState extends State<Chat> with TickerProviderStateMixin {
         null
       ),
     );
+  }
+
     void _submitMsg(String txt){
       _textController.clear();
       setState(() {
@@ -106,17 +102,16 @@ class _ChatState extends State<Chat> with TickerProviderStateMixin {
         ),
       );
       setState(() {
-        _messages.insert(0, msg),
+        _message.insert(0, msg);
       });
       msg.animationController.forward();
     }
     @override 
   void dispose(){
-    for (Msg msg in _messages){
+    for (Msg msg in _message){
       msg.animationController.dispose();
     }
     super.dispose();
-  }
   }
 
 }

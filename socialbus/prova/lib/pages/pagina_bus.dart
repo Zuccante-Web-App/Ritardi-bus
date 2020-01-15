@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:prova/data_storage/apirutes.dart";
+import 'package:prova/widget/chat.dart';
+
 class PaginaBus extends StatefulWidget {
   PaginaBus({Key key}) : super(key: key);
 
@@ -26,7 +28,7 @@ class _PaginaBusState extends State<PaginaBus> {
                 return Scaffold(
                   appBar: AppBar(
                     title: Text('BUS $tratta',
-                    style: TextStyle(fontSize: 10),
+                    style: TextStyle(fontSize: 12),
                     ),
                     backgroundColor: Colors.green[700],
                   ),
@@ -41,9 +43,7 @@ class _PaginaBusState extends State<PaginaBus> {
                         ),
                       ),
                       Container(
-                        child: ListView(
-                          children: <Widget>[],
-                        ),
+                        child: Chat(),
                       )
                     ],
                   ),

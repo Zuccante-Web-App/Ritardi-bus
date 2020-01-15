@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 
 class Msg extends StatelessWidget{
   Msg({this.txt, this.animationController});
@@ -21,13 +20,13 @@ child: new Container(
     children: <Widget>[
       new Container(
         margin: const EdgeInsets.only(right: 18.0),
-        child: new CircleAvatar(child: new Text (defaultUserName[0])),
-      )
+        child: new CircleAvatar(child: new Text ("alberto")),
+      ),
       new Expanded(
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Text(defaultUsername, style: Theme.of(ctx).textTheme.subhead),
+            new Text("alberto", style: Theme.of(ctx).textTheme.subhead),
             new Container(
               margin: const EdgeInsets.only(top: 6.0),
               child: new Text(txt),
