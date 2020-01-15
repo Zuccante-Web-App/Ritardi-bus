@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:prova/data_storage/apirutes.dart";
 import 'package:prova/widget/chat.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PaginaBus extends StatefulWidget {
   PaginaBus({Key key}) : super(key: key);
@@ -15,10 +16,18 @@ class _PaginaBusState extends State<PaginaBus> {
     Size _size = MediaQuery.of(context).size;
     List<APIRoute> bus = ModalRoute.of(context).settings.arguments;
     String nomeBus = bus[0].routeShortName;
+    String urlString ="http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-$nomeBus.pdf";
     return Container(
       child: Scaffold(
           appBar: AppBar(
-            title: Text('BUS $nomeBus'),
+            title: Row(
+              children: <Widget>[
+                Text('$nomeBus'),
+                IconButton(icon: Icon(Icons.timelapse), onPressed: () {
+                  launch(urlString);
+                },)
+              ],
+            ),
             backgroundColor: Colors.green[700],
           ),
           body: PageView.builder(

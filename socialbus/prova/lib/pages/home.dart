@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:prova/data_storage/apirutes.dart';
 import 'package:prova/widget/containerbus.dart';
 import 'package:prova/widget/menu.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -14,7 +15,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<List<APIRoute>> buses = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +79,10 @@ class _HomeState extends State<Home> {
                   } else if (snapshot.hasError) {
                     return new Text("${snapshot.error}");
                   }
-                  return new CircularProgressIndicator();
+                  return new SpinKitWanderingCubes(
+                    color: Colors.green[700],
+                    size: 50.0,
+                  );
                 },
               ),
             ),
@@ -96,19 +99,19 @@ class _HomeState extends State<Home> {
 
 //jsons file to list of ApiRoutes
   Future<List<APIRoute>> loadRoutes() async {
+    wait(30);
+    buses = [];
     String jsonString = await _loadRutesAsset();
-
     final Iterable jsonResponse = json.decode(jsonString);
     List<APIRoute> routes = [];
     routes = jsonResponse.map((route) => APIRoute.fromJson(route)).toList();
     List<APIRoute> busList = [];
-    for (int i = 0; i < routes.length-1; i++) {
-        busList.add(routes[i]);
+    for (int i = 0; i < routes.length - 1; i++) {
+      busList.add(routes[i]);
       if (routes[i].routeShortName != routes[i + 1].routeShortName) {
         busSorting(busList);
-       busList = [];
+        busList = [];
       }
-
     }
     return routes;
   }
