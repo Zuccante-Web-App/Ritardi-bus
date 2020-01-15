@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:prova/data_storage/bus.dart';
 import 'package:prova/data_storage/apirutes.dart';
 import 'package:prova/widget/containerbus.dart';
-import 'package:prova/data_storage/allbus.dart';
 import 'package:prova/widget/menu.dart';
 
 class Home extends StatefulWidget {
@@ -15,11 +13,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  AllBus allBus = new AllBus();
+  List<List<APIRoute>> buses = [];
 
   @override
   Widget build(BuildContext context) {
-    List<Bus> allbus = allBus.getAllBus();
     return Scaffold(
       drawer: Menu(),
       appBar: AppBar(
@@ -60,17 +57,16 @@ class _HomeState extends State<Home> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return new GridView.builder(
-                      itemCount: snapshot.data.length,
+                      itemCount: buses.length,
                       itemBuilder: (BuildContext context, int index) {
-                        final List<APIRoute> routes = snapshot.data;
+                        final List<APIRoute> routes = buses[index];
                         return GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(context, '/paginaBus',
-                                arguments: routes[index]);
+                                arguments: routes);
                           },
                           child: new ContainerBus(
-                            nomeBus: routes[index].routeShortName,
-                            capolinea: routes[index].routeLongName,
+                            nomeBus: routes[0].routeShortName,
                           ),
                         );
                       },
@@ -105,8 +101,20 @@ class _HomeState extends State<Home> {
     final Iterable jsonResponse = json.decode(jsonString);
     List<APIRoute> routes = [];
     routes = jsonResponse.map((route) => APIRoute.fromJson(route)).toList();
+    List<APIRoute> busList = [];
+    for (int i = 0; i < routes.length-1; i++) {
+        busList.add(routes[i]);
+      if (routes[i].routeShortName != routes[i + 1].routeShortName) {
+        busSorting(busList);
+       busList = [];
+      }
 
+    }
     return routes;
+  }
+
+  void busSorting(List<APIRoute> busList) {
+    buses.add(busList);
   }
 
   Future wait(int seconds) {
