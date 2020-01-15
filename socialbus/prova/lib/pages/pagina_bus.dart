@@ -12,8 +12,8 @@ class _PaginaBusState extends State<PaginaBus> {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
-    APIRoute bus = ModalRoute.of(context).settings.arguments;
-    String nomeBus = bus.routeShortName;
+    List<APIRoute> bus = ModalRoute.of(context).settings.arguments;
+    String nomeBus = bus[0].routeShortName;
     return Container(
       child: Scaffold(
           appBar: AppBar(
