@@ -20,15 +20,41 @@ class _PaginaBusState extends State<PaginaBus> {
             title: Text('BUS $nomeBus'),
             backgroundColor: Colors.green[700],
           ),
-          body: PageView(
-            children: <Widget>[
-              Scaffold(
-                appBar: AppBar(
-                  leading: Container(),
-                  title: Text('ANDATA'),
-                  backgroundColor: Colors.green[900],
-                ),
-                body: Stack(
+          body: PageView.builder(
+              itemCount: bus.length,
+              itemBuilder: (BuildContext context, int index) {
+                String tratta=bus[index].routeLongName.toUpperCase();
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text('BUS $tratta',
+                    style: TextStyle(fontSize: 20),
+                    ),
+                    backgroundColor: Colors.green[700],
+                  ),
+                  body: Stack(
+                    children: <Widget>[
+                      Center(
+                        child: new Image.asset(
+                          'assets/image/kent-vista-frontale1.jpg',
+                          width: _size.width,
+                          height: _size.height,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      Container(
+                        child: ListView(
+                          children: <Widget>[],
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              })),
+    );
+  }
+}
+
+/* Stack(
                   children: <Widget>[
                     Center(
                       child: new Image.asset(
@@ -44,36 +70,4 @@ class _PaginaBusState extends State<PaginaBus> {
                       ),
                     )
                   ],
-                ),
-              ),
-              Scaffold(
-                appBar: AppBar(
-                  leading: Container(),
-                  title: Text('RITORNO'),
-                  backgroundColor: Colors.green[900],
-                ),
-                body: Stack(
-                  children: <Widget>[
-                    Center(
-                      child: new Image.asset(
-                        'assets/image/bus-dietro.jpg',
-                        width: _size.width,
-                        height: _size.height,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    Center(
-                      child: Text("This is a Text",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 28.0,
-                              color: Colors.white)),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          )),
-    );
-  }
-}
+                ),*/
