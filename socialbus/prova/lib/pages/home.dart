@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:prova/data_storage/apirutes.dart';
@@ -15,8 +16,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<List<APIRoute>> buses = [];
+ 
   @override
   Widget build(BuildContext context) {
+     FirebaseUser user =  ModalRoute.of(context).settings.arguments;
     return Scaffold(
       drawer: Menu(),
       appBar: AppBar(
@@ -63,7 +66,7 @@ class _HomeState extends State<Home> {
                         return GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(context, '/paginaBus',
-                                arguments: routes);
+                                arguments: {routes,user});
                           },
                           child: new ContainerBus(
                             nomeBus: routes[0].routeShortName,

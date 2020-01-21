@@ -1,119 +1,169 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:prova/widget/msg.dart';
-
-
 
 class Chat extends StatefulWidget {
-  Chat({Key key}) : super(key: key);
+  static const String id = "CHAT";
+  final FirebaseUser user;
 
+  const Chat({Key key, this.user}) : super(key: key);
   @override
   _ChatState createState() => _ChatState();
 }
 
-class _ChatState extends State<Chat> with TickerProviderStateMixin {
-  final List<Msg> _message = <Msg>[];
-  final TextEditingController _textController = new TextEditingController();
-  bool _isWriting = false;
+class _ChatState extends State<Chat> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final Firestore _firestore = Firestore.instance;
+
+  TextEditingController messageController = TextEditingController();
+  ScrollController scrollController = ScrollController();
+
+  Future<void> callback() async {
+    if (messageController.text.length > 0) {
+      await _firestore.collection('messages').add({
+        'text': messageController.text,
+        'from': widget.user.email,
+        'date': DateTime.now().toIso8601String().toString(),
+      });
+      messageController.clear();
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        curve: Curves.easeOut,
+        duration: const Duration(milliseconds: 300),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      
-      appBar : new AppBar(
-        automaticallyImplyLeading: false,
-        title: new Text("ChatApplication"),
-        elevation: 
-        Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 6.0,
+    return Scaffold(
+      appBar: AppBar(
+        leading: Hero(
+          tag: 'logo',
+          child: Container(
+            height: 40.0,
+            child: Image.asset("assets/images/jpeg.png"),
+          ),
         ),
-        body: new Column(children: <Widget>[
-          new Flexible(
-            child: new ListView.builder(
-              itemBuilder: (_, int index) => _message[index],
-              itemCount: _message.length,
-              reverse: true,
-              padding: new EdgeInsets.all(6.0),
-          )),
-          new Divider(height: 1.0),
-          new Container(
-            child: _buildComposer(),
-            decoration: new BoxDecoration(color: Theme.of(context).cardColor),
+        title: Text("Tensor Chat"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              _auth.signOut();
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            },
           )
-        ]),
-    );
-  }
-  Widget _buildComposer(){
-    return new IconTheme(
-      data: new IconThemeData(color: Theme.of(context).accentColor),
-      child: new Container(
-        margin: const EdgeInsets.symmetric(horizontal: 9.0),
-        child: new Row(
+        ],
+      ),
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            new Flexible(
-              child: new TextField(
-                controller: _textController,
-                onChanged: (String txt) {
-                  setState(() {
-                    _isWriting = txt.length > 0;
-                  });
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _firestore
+                    .collection('messages')
+                    .orderBy('date')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData)
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+
+                  List<DocumentSnapshot> docs = snapshot.data.documents;
+
+                  List<Widget> messages = docs
+                      .map((doc) => Message(
+                            from: doc.data['from'],
+                            text: doc.data['text'],
+                            me: widget.user.email == doc.data['from'],
+                          ))
+                      .toList();
+
+                  return ListView(
+                    controller: scrollController,
+                    children: <Widget>[
+                      ...messages,
+                    ],
+                  );
                 },
-                onSubmitted: _submitMsg,
-                decoration: 
-                new InputDecoration.collapsed(hintText: "Entersome text to send a message"),
               ),
             ),
-            new Container(
-              margin: new EdgeInsets.symmetric(horizontal: 3.0),
-              child: Theme.of(context).platform == TargetPlatform.iOS
-              ? new CupertinoButton(
-                child: new Text("submit"),
-                onPressed: _isWriting ? () => _submitMsg(_textController.text)
-                : null
-              )
-              : new CupertinoButton(
-                child: new Icon(Icons.message),
-                onPressed: _isWriting
-                ? () => _submitMsg(_textController.text)
-                : null,
-              )
-            )
+            Container(
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextField(
+                      onSubmitted: (value) => callback(),
+                      decoration: InputDecoration(
+                        hintText: "Enter a Message...",
+                        border: const OutlineInputBorder(),
+                      ),
+                      controller: messageController,
+                    ),
+                  ),
+                  SendButton(
+                    text: "Send",
+                    callback: callback,
+                  )
+                ],
+              ),
+            ),
           ],
         ),
-        decoration: Theme.of(context).platform == TargetPlatform.iOS
-        ? new BoxDecoration(
-          border: 
-          new Border(top: new BorderSide(color: Colors.brown[200]))
-        ):
-        null
       ),
     );
   }
+}
 
-    void _submitMsg(String txt){
-      _textController.clear();
-      setState(() {
-        _isWriting = false;
-      });
-      Msg msg = new Msg(
-        txt: txt,
-        animationController: new AnimationController(
-          vsync: this,
-          duration: new Duration(milliseconds: 800)
-        ),
-      );
-      setState(() {
-        _message.insert(0, msg);
-      });
-      msg.animationController.forward();
-    }
-    @override 
-  void dispose(){
-    for (Msg msg in _message){
-      msg.animationController.dispose();
-    }
-    super.dispose();
+class SendButton extends StatelessWidget {
+  final String text;
+  final VoidCallback callback;
+
+  const SendButton({Key key, this.text, this.callback}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      color: Colors.orange,
+      onPressed: callback,
+      child: Text(text),
+    );
   }
+}
 
+class Message extends StatelessWidget {
+  final String from;
+  final String text;
+
+  final bool me;
+
+  const Message({Key key, this.from, this.text, this.me}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        crossAxisAlignment:
+            me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            from,
+          ),
+          Material(
+            color: me ? Colors.teal : Colors.red,
+            borderRadius: BorderRadius.circular(10.0),
+            elevation: 6.0,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+              child: Text(
+                text,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
