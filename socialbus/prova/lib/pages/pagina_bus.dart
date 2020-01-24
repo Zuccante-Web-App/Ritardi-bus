@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import "package:prova/data_storage/apirutes.dart";
-import 'package:prova/widget/chat.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PaginaBus extends StatefulWidget {
@@ -15,7 +14,6 @@ class _PaginaBusState extends State<PaginaBus> {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
-    FirebaseUser user = ModalRoute.of(context).settings.arguments;
     List<APIRoute> bus = ModalRoute.of(context).settings.arguments;
     String nomeBus = bus[0].routeShortName;
     String urlString =
@@ -62,7 +60,7 @@ class _PaginaBusState extends State<PaginaBus> {
                       Center(
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.8,
-                          child: Chat(user: user,),
+                          child:Text("caio"),
                         ),
                       )
                     ],
