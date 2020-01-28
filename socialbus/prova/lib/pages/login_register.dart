@@ -21,7 +21,7 @@ class _RegistrationState extends State<Registration> {
 
     Navigator.pushReplacement(context, MaterialPageRoute(
                                   builder: (context) =>
-                                      Home(user:user)), );
+                                      Home(user:user)));
   }
 
   @override
