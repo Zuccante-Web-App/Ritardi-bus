@@ -7,7 +7,6 @@ class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String urlTime = 'http://actv.avmspa.it/it/content/rete-venezia-unica-0';
-    String urlHome = '/Users/denisbellin/codice/Ritardi-bus/socialbus/prova/lib/pages/home.dart';
     String urlMoney = 'http://actv.avmspa.it/it/content/prezzi-vigore-0';
     String urlWrite = '';
     String urlRead = 'http://actv.avmspa.it/it/content/rete-venezia-unica-0';
@@ -32,97 +31,19 @@ class Menu extends StatelessWidget {
               ),
             ),
           ),
-          GestureDetector(
-              onTap: () async {
-                if (await canLaunch(urlTime)) {
-                  await launch(urlTime);
-                } else {
-                  throw 'Could not launch $urlTime';
-                }
-              },
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.accessible_forward),
-                      Text(
-                        'ORARI',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue[800],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )),
+
               GestureDetector(
               onTap: () async {
-                if (await canLaunch(urlMoney)) {
-                  await launch(urlMoney);
-                } else {
-                  throw 'Could not launch $urlMoney';
-                }
-              },
-              child: Container(
+                Navigator.pushNamed(context, '/home');
+                },
+                child: Container(
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Row(
                     children: <Widget>[
-                      Icon(Icons.money_off),
+                      Icon(Icons.home),
                       Text(
-                        'COSTI',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue[800],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )),
-              GestureDetector(
-              onTap: () async {
-                if (await canLaunch(urlHome)) {
-                  await launch(urlHome);
-                } else {
-                  throw 'Could not launch $urlHome';
-                }
-              },
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.text_fields),
-                      Text(
-                        'HOME',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue[800],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )),
-              GestureDetector(
-              onTap: () async {
-                if (await canLaunch(urlWrite)) {
-                  await launch(urlWrite);
-                } else {
-                  throw 'Could not launch $urlWrite';
-                }
-              },
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.local_post_office),
-                      Text(
-                        'SCRIVI',
+                        '  HOME',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.blue[800],
@@ -145,9 +66,9 @@ class Menu extends StatelessWidget {
                   padding: const EdgeInsets.all(12.0),
                   child: Row(
                     children: <Widget>[
-                      Icon(Icons.attach_money),
+                      Icon(Icons.import_contacts),
                       Text(
-                        'LEGGI',
+                        '  LEGGI',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.blue[800],
@@ -157,6 +78,59 @@ class Menu extends StatelessWidget {
                   ),
                 ),
               )),
+              GestureDetector(
+              onTap: () async {
+                if (await canLaunch(urlWrite)) {
+                  await launch(urlWrite);
+                } else {
+                  throw 'Could not launch $urlWrite';
+                }
+              },
+              child: Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.mode_edit),
+                      Text(
+                        '  SCRIVI',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[800],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )),
+          GestureDetector(
+              onTap: () async {
+                if (await canLaunch(urlTime)) {
+                  await launch(urlTime);
+                } else {
+                  throw 'Could not launch $urlTime';
+                }
+              },
+              child: Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.access_time),
+                      Text(
+                        '  ORARI',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[800],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )),
+              
+              
+              
               GestureDetector(
               onTap: () async {
                 if (await canLaunch(urlCom)) {
@@ -170,9 +144,9 @@ class Menu extends StatelessWidget {
                   padding: const EdgeInsets.all(12.0),
                   child: Row(
                     children: <Widget>[
-                      Icon(Icons.attach_money),
+                      Icon(Icons.assignment),
                       Text(
-                        'COMUNICAZIONI',
+                        '  COMUNICAZIONI',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.blue[800],
@@ -195,9 +169,9 @@ class Menu extends StatelessWidget {
                   padding: const EdgeInsets.all(12.0),
                   child: Row(
                     children: <Widget>[
-                      Icon(Icons.attach_money),
+                      Icon(Icons.cloud_queue),
                       Text(
-                        'RIFERIMENTI AL SITO',
+                        '  SITO',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.blue[800],

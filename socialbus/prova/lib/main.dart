@@ -5,7 +5,7 @@ import 'package:prova/pages/wrapper.dart';
 import 'package:prova/pages/login_register.dart';
 
 void main() => runApp(MaterialApp(
-      initialRoute: '/',
+      initialRoute: '/home',
       routes: {
         '/': (context) => Wrapper(),
         '/home': (context) => Home(),
