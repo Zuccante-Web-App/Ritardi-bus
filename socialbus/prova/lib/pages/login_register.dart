@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:prova/pages/home.dart';
 class Registration extends StatefulWidget {
   static const String id = "REGISTRATION";
   @override
@@ -19,7 +19,9 @@ class _RegistrationState extends State<Registration> {
       password: password,
     );
 
-    Navigator.pushNamed(context, '/paginaBus', arguments: user);
+    Navigator.pushReplacement(context, MaterialPageRoute(
+                                  builder: (context) =>
+                                      Home(user:user)), );
   }
 
   @override
@@ -98,7 +100,7 @@ class _LoginState extends State<Login> {
       password: password,
     );
 
-    Navigator.pushNamed(context, '/paginaBus', arguments: user);
+    Navigator.pushNamed(context, '/home', arguments: user);
   }
 
   @override
@@ -169,7 +171,7 @@ class CustomButton extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Material(
-        color: Colors.blueGrey,
+        color: Colors.blue[800],
         elevation: 6.0,
         borderRadius: BorderRadius.circular(30.0),
         child: MaterialButton(

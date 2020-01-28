@@ -18,44 +18,49 @@ class Wrapper extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Hero(
-                  tag: 'logo',
-                  child: Container(
-                    width: 100.0,
-                    child: Image.asset("assets/image/logo.jpeg"),
-                  ),
-                ),
                 Stack(
                   children: <Widget>[
                     // Stroked text as border.
-                    Text(
+ /*                   Text(
                       'SocialBus',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                      
                         letterSpacing: 5,
-                        fontSize: 50,
+                        fontSize: 40,
                         foreground: Paint()
                           ..style = PaintingStyle.stroke
                           ..strokeWidth = 7
                           ..color = Colors.black,
                       ),
-                    ),
+                    ),*/
                     // Solid text as fill.
                     Text(
                       'SocialBus',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        //fontWeight: FontWeight.bold,
                         letterSpacing: 5,
-                        fontSize: 50,
-                        color: Colors.green,
+                        fontSize: 40,
+                        color: Colors.grey,
                       ),
                     ),
                   ],
                 )
               ],
             ),
+                 SizedBox(
+              height: MediaQuery.of(context).size.width*0.10,
+            ),
+            Center(
+              child: Hero(
+                tag: 'logo',
+                child: Container(
+                  width: MediaQuery.of(context).size.width*0.50,
+                  child: Image.asset("assets/image/logo.jpeg"),
+                ),
+              ),
+            ),
             SizedBox(
-              height: 50.0,
+              height: MediaQuery.of(context).size.width*0.25,
             ),
             CustomButton(
               text: "Log In",

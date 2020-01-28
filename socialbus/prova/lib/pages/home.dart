@@ -1,13 +1,16 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:prova/data_storage/apirutes.dart';
+import 'package:prova/pages/pagina_bus.dart';
 import 'package:prova/widget/containerbus.dart';
 import 'package:prova/widget/menu.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key}) : super(key: key);
+  final AuthResult user;
+  Home({Key key, this.user}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -15,7 +18,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<List<APIRoute>> buses = [];
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,8 +66,12 @@ class _HomeState extends State<Home> {
                         final List<APIRoute> routes = buses[index];
                         return GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, '/paginaBus',
-                                arguments: routes);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      PaginaBus(user: widget.user, bus: routes)),
+                            );
                           },
                           child: new ContainerBus(
                             nomeBus: routes[0].routeShortName,
