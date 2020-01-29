@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:prova/pages/home.dart';
+
 class Registration extends StatefulWidget {
   static const String id = "REGISTRATION";
   @override
@@ -14,14 +17,25 @@ class _RegistrationState extends State<Registration> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> registerUser() async {
+                       showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("caricamento log in"),
+                      content:SpinKitWanderingCubes(
+                    color: Colors.green[700],
+                    size: 50.0,
+                  ),
+                    );
+                  },
+                );
     AuthResult user = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
 
-    Navigator.pushReplacement(context, MaterialPageRoute(
-                                  builder: (context) =>
-                                      Home(user:user)));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Home(user: user)));
   }
 
   @override
@@ -48,7 +62,7 @@ class _RegistrationState extends State<Registration> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           SizedBox(
-            height: 40.0,
+            height: 20.0,
           ),
           TextField(
             keyboardType: TextInputType.emailAddress,
@@ -73,7 +87,19 @@ class _RegistrationState extends State<Registration> {
           CustomButton(
             text: "Register",
             callback: () async {
-              await registerUser();
+              try {
+                await registerUser();
+              } catch (e) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("$e"),
+                      content: Text(""),
+                    );
+                  },
+                );
+              }
             },
           )
         ],
@@ -95,6 +121,18 @@ class _LoginState extends State<Login> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> loginUser() async {
+                   showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("caricamento log in"),
+                      content:SpinKitWanderingCubes(
+                    color: Colors.green[700],
+                    size: 50.0,
+                  ),
+                    );
+                  },
+                );
     AuthResult user = await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
@@ -152,9 +190,21 @@ class _LoginState extends State<Login> {
           CustomButton(
             text: "Log In",
             callback: () async {
-              await loginUser();
+              try {
+                await loginUser();
+              } catch (e) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("$e"),
+                      content: Text(""),
+                    );
+                  },
+                );
+              }
             },
-          )
+          ),
         ],
       ),
     );
