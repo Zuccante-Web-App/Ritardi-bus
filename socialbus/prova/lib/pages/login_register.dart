@@ -17,18 +17,6 @@ class _RegistrationState extends State<Registration> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> registerUser() async {
-                       showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("caricamento log in"),
-                      content:SpinKitWanderingCubes(
-                    color: Colors.green[700],
-                    size: 50.0,
-                  ),
-                    );
-                  },
-                );
     AuthResult user = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -88,6 +76,18 @@ class _RegistrationState extends State<Registration> {
             text: "Register",
             callback: () async {
               try {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CupertinoAlertDialog(
+                      title: Text("caricamento log in"),
+                      content: SpinKitWanderingCubes(
+                        color: Colors.green[700],
+                        size: 50.0,
+                      ),
+                    );
+                  },
+                );
                 await registerUser();
               } catch (e) {
                 showDialog(
@@ -121,18 +121,6 @@ class _LoginState extends State<Login> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> loginUser() async {
-                   showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("caricamento log in"),
-                      content:SpinKitWanderingCubes(
-                    color: Colors.green[700],
-                    size: 50.0,
-                  ),
-                    );
-                  },
-                );
     AuthResult user = await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
@@ -191,6 +179,19 @@ class _LoginState extends State<Login> {
             text: "Log In",
             callback: () async {
               try {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CupertinoAlertDialog(
+                      
+                      title: Text("caricamento log in"),
+                      content: SpinKitWanderingCubes(
+                        color: Colors.green[700],
+                        size: 50.0,
+                      ),
+                    );
+                  },
+                );
                 await loginUser();
               } catch (e) {
                 showDialog(

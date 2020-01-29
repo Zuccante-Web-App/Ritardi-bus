@@ -31,28 +31,6 @@ class Menu extends StatelessWidget {
               ),
             ),
           ),
-
-              GestureDetector(
-              onTap: () async {
-                Navigator.pushNamed(context, '/home');
-                },
-                child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.home),
-                      Text(
-                        '  HOME',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue[800],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )),
               GestureDetector(
               onTap: () async {
                 if (await canLaunch(urlRead)) {
@@ -128,9 +106,6 @@ class Menu extends StatelessWidget {
                   ),
                 ),
               )),
-              
-              
-              
               GestureDetector(
               onTap: () async {
                 if (await canLaunch(urlCom)) {
