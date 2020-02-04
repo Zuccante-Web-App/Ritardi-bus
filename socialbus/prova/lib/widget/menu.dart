@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prova/service/graphicFn.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Menu extends StatelessWidget {
@@ -7,7 +8,6 @@ class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String urlTime = 'http://actv.avmspa.it/it/content/rete-venezia-unica-0';
-    String urlMoney = 'http://actv.avmspa.it/it/content/prezzi-vigore-0';
     String urlWrite = '';
     String urlRead = 'http://actv.avmspa.it/it/content/rete-venezia-unica-0';
     String urlCom = 'http://actv.avmspa.it/it/content/rete-venezia-unica-0';
@@ -19,7 +19,7 @@ class Menu extends StatelessWidget {
         children: <Widget>[
           Container(
             height: 50,
-            decoration: BoxDecoration(color: Colors.green[800]),
+            decoration: BoxDecoration(color:  hexToColor("#0058A5")),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(

@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:prova/data_storage/apirutes.dart';
 import 'package:prova/pages/pagina_bus.dart';
-import 'package:prova/widget/chat.dart';
+import 'package:prova/service/graphicFn.dart';
 import 'package:prova/widget/containerbus.dart';
 import 'package:prova/widget/menu.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -17,6 +16,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
+
 class _HomeState extends State<Home> {
   List<List<APIRoute>> buses = [];
 
@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       drawer: Menu(),
       appBar: AppBar(
-        backgroundColor: Colors.green[700],
+        backgroundColor:  hexToColor("#0058A5"),
         title: Row(
           children: <Widget>[
             Icon(

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:prova/pages/home.dart';
+import 'package:prova/service/graphicFn.dart';
 
 class Registration extends StatefulWidget {
   static const String id = "REGISTRATION";
@@ -21,16 +22,16 @@ class _RegistrationState extends State<Registration> {
       email: email,
       password: password,
     );
-
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Home(user: user.user)));
+    Navigator.of(context, rootNavigator: true).pop();
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => Home(user: user.user)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green[700],
+        backgroundColor:  hexToColor("#0058A5"),
         title: Row(
           children: <Widget>[
             Icon(
@@ -90,6 +91,7 @@ class _RegistrationState extends State<Registration> {
                 );
                 await registerUser();
               } catch (e) {
+                Navigator.of(context, rootNavigator: true).pop();
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -125,15 +127,16 @@ class _LoginState extends State<Login> {
       email: email,
       password: password,
     );
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Home(user: user.user)));
+    Navigator.of(context, rootNavigator: true).pop();
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => Home(user: user.user)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green[700],
+        backgroundColor: hexToColor("#0058A5"),
         title: Row(
           children: <Widget>[
             Icon(
@@ -183,7 +186,6 @@ class _LoginState extends State<Login> {
                   context: context,
                   builder: (BuildContext context) {
                     return CupertinoAlertDialog(
-                      
                       title: Text("caricamento log in"),
                       content: SpinKitWanderingCubes(
                         color: Colors.green[700],
@@ -194,6 +196,7 @@ class _LoginState extends State<Login> {
                 );
                 await loginUser();
               } catch (e) {
+                Navigator.of(context, rootNavigator: true).pop();
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {

@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:prova/data_storage/apirutes.dart';
+import 'package:prova/widget/messaggio.dart';
 
 class Chat extends StatefulWidget {
   final APIRoute bus;
@@ -16,7 +18,6 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   CollectionReference _colec;
   Map map;
-  final Firestore _firestore = Firestore.instance;
   @override
   initState() {
     setUp();
@@ -30,49 +31,101 @@ class _ChatState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
     print(widget.user.email);
-    TextEditingController _textFieldController = TextEditingController();
-    Map<String, dynamic> data = Map<String, dynamic>();
-    String txt;
+    TextEditingController _fermataController = TextEditingController();
+    TextEditingController _ritardoController = TextEditingController();
+    String fermata,ritardo;
     return Scaffold(
       body: Column(
         children: <Widget>[
           Container(
-            child: Text("CHAT"),
+            child: Text("RITARDI DEL BUS"),
           ),
-          Container(
-            child: FlatButton(
-              child: Text("Aggiungi messaggio"),
-              onPressed: () => showDialog(
-                context: context,
-                builder: (context) {
-                  return CupertinoAlertDialog(
-                      title: Text("Inserisci Messaggio"),
-                      content: Card(
-                        child: new TextField(
-                            controller: _textFieldController,
-                            keyboardType: TextInputType.emailAddress,
-                            onChanged: (value) => txt = value,
-                            decoration: InputDecoration(
-                              hintText: "Inserisci Testo...",
-                              border: const OutlineInputBorder(),
-                            )),
+          StreamBuilder<QuerySnapshot>(
+              stream: _colec.orderBy('date').snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Expanded(
+                    child: Container(
+                      child: ListView(
+                        children: snapshot.data.documents.map((doc) {
+                          return Messaggio(
+                            userName: doc.data['user'],
+                            fermata: doc.data['fermata'],
+                            ritardo:doc.data['ritardo'],
+                            me: doc.data['user'] == widget.user.email
+                                ? true
+                                : false,
+                          );
+                        }).toList(),
                       ),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text("Invia"),
-                          onPressed: () {
-                            print(txt);
-                            _colec.add({
-                              'messaggio': txt,
-                              "user": widget.user.email,
-                              "date":
-                                  DateTime.now().toIso8601String().toString(),
-                            });
-                            Navigator.of(context, rootNavigator: true).pop();
-                          },
-                        )
-                      ]);
-                },
+                    ),
+                  );
+                } else {
+                  return SpinKitWanderingCubes(
+                    color: Colors.green[700],
+                    size: 50.0,
+                  );
+                }
+              }),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Container(
+              child: Material(
+                color: Colors.blue[800],
+                elevation: 6.0,
+                borderRadius: BorderRadius.circular(30.0),
+                child: MaterialButton(
+                  minWidth: 200.0,
+                  height: 45.0,
+                  child: Text("Aggiungi messaggio"),
+                  onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) {
+                      return CupertinoAlertDialog(
+                          title: Text("Inserisci Messaggio"),
+                          content: Card(
+                              child: Column(
+                            children: <Widget>[
+                              Text("Fermata:"),
+                              TextField(
+                                  controller: _fermataController,
+                                  keyboardType: TextInputType.text,
+                                  onChanged: (value) => fermata = value,
+                                  decoration: InputDecoration(
+                                    hintText: "Inserisci Testo...",
+                                    border: const OutlineInputBorder(),
+                                  )),
+                              Text("Ritardo:"),
+                              TextField(
+                                  controller: _ritardoController,
+                                  keyboardType: TextInputType.text,
+                                  onChanged: (value) => ritardo = value,
+                                  decoration: InputDecoration(
+                                    hintText: "Inserisci Testo...",
+                                    border: const OutlineInputBorder(),
+                                  )),
+                            ],
+                          )),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text("Invia"),
+                              onPressed: () {
+                                _colec.add({
+                                  'ritardo': ritardo,
+                                  "fermata": fermata,
+                                  "user": widget.user.email,
+                                  "date": DateTime.now()
+                                      .toIso8601String()
+                                      .toString(),
+                                });
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                              },
+                            )
+                          ]);
+                    },
+                  ),
+                ),
               ),
             ),
           )

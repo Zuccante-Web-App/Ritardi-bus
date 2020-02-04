@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import "package:prova/data_storage/apirutes.dart";
+import 'package:prova/service/graphicFn.dart';
 import 'package:prova/widget/chat.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -17,7 +18,6 @@ class _PaginaBusState extends State<PaginaBus> {
   
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
     String nomeBus = widget.bus[0].routeShortName;
     String urlString =
         "http://actv.avmspa.it/sites/default/files/attachments/pdf/UM/U-$nomeBus.pdf";
@@ -35,7 +35,7 @@ class _PaginaBusState extends State<PaginaBus> {
                 )
               ],
             ),
-            backgroundColor: Colors.green[700],
+            backgroundColor: hexToColor("#0058A5"),
           ),
           body: PageView.builder(
               itemCount: widget.bus.length,
@@ -45,10 +45,10 @@ class _PaginaBusState extends State<PaginaBus> {
                   appBar: AppBar(
                     automaticallyImplyLeading: false,
                     title: Text(
-                      'BUS $tratta',
+                      '$tratta',
                       style: TextStyle(fontSize: 12),
                     ),
-                    backgroundColor: Colors.green[700],
+                    backgroundColor: hexToColor("#0058A5"),
                   ),
                   body: Center(
                       child: Chat(bus: widget.bus[index], user: widget.user)),
