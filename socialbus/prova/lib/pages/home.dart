@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:prova/data_storage/apirutes.dart';
 import 'package:prova/pages/pagina_bus.dart';
+import 'package:prova/widget/chat.dart';
 import 'package:prova/widget/containerbus.dart';
 import 'package:prova/widget/menu.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Home extends StatefulWidget {
-  final AuthResult user;
+  final  user;
   Home({Key key, this.user}) : super(key: key);
 
   @override
@@ -67,11 +68,11 @@ class _HomeState extends State<Home> {
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
+                                context,
+                                MaterialPageRoute(
                                   builder: (context) =>
-                                      PaginaBus(user: widget.user, bus: routes)),
-                            );
+                                      PaginaBus(user: widget.user, bus: routes),
+                                ));
                           },
                           child: new ContainerBus(
                             nomeBus: routes[0].routeShortName,

@@ -23,7 +23,7 @@ class _RegistrationState extends State<Registration> {
     );
 
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Home(user: user)));
+        context, MaterialPageRoute(builder: (context) => Home(user: user.user)));
   }
 
   @override
@@ -56,7 +56,7 @@ class _RegistrationState extends State<Registration> {
             keyboardType: TextInputType.emailAddress,
             onChanged: (value) => email = value,
             decoration: InputDecoration(
-              hintText: "Enter Your Email...",
+              hintText: "Inserisci email...",
               border: const OutlineInputBorder(),
             ),
           ),
@@ -68,7 +68,7 @@ class _RegistrationState extends State<Registration> {
             obscureText: true,
             onChanged: (value) => password = value,
             decoration: InputDecoration(
-              hintText: "Enter Your Password...",
+              hintText: "inserisci Password...",
               border: const OutlineInputBorder(),
             ),
           ),
@@ -125,8 +125,8 @@ class _LoginState extends State<Login> {
       email: email,
       password: password,
     );
-
-    Navigator.pushNamed(context, '/home', arguments: user);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Home(user: user.user)));
   }
 
   @override
@@ -159,7 +159,7 @@ class _LoginState extends State<Login> {
             keyboardType: TextInputType.emailAddress,
             onChanged: (value) => email = value,
             decoration: InputDecoration(
-              hintText: "Enter Your Email...",
+              hintText: "Inserisci email...",
               border: const OutlineInputBorder(),
             ),
           ),
@@ -171,7 +171,7 @@ class _LoginState extends State<Login> {
             obscureText: true,
             onChanged: (value) => password = value,
             decoration: InputDecoration(
-              hintText: "Enter Your Password...",
+              hintText: "Inserisci Password...",
               border: const OutlineInputBorder(),
             ),
           ),
