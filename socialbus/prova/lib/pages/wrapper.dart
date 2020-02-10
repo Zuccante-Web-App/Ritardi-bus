@@ -51,13 +51,12 @@ class Wrapper extends StatelessWidget {
               height: MediaQuery.of(context).size.width*0.10,
             ),
             Center(
-              child: Hero(
-                tag: 'logo',
+              
                 child: Container(
                   width: MediaQuery.of(context).size.width*0.50,
-                  child: Image.asset("assets/image/logo.jpeg"),
+                  child: Image.asset("assets/image/logo.png"),
                 ),
-              ),
+              
             ),
             SizedBox(
               height: MediaQuery.of(context).size.width*0.25,

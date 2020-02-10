@@ -1,12 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import "package:prova/data_storage/apirutes.dart";
+import 'package:prova/data_storage/userData.dart';
 import 'package:prova/service/graphicFn.dart';
 import 'package:prova/widget/chat.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PaginaBus extends StatefulWidget {
-  final FirebaseUser user;
+  final UserData user;
   final List<APIRoute> bus;
   PaginaBus({Key key, this.user, this.bus}) : super(key: key);
 

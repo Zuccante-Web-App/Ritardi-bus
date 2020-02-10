@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:prova/data_storage/apirutes.dart';
+import 'package:prova/data_storage/userData.dart';
 import 'package:prova/pages/pagina_bus.dart';
 import 'package:prova/service/graphicFn.dart';
 import 'package:prova/widget/containerbus.dart';
@@ -9,7 +10,7 @@ import 'package:prova/widget/menu.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Home extends StatefulWidget {
-  final  user;
+  final UserData user;
   Home({Key key, this.user}) : super(key: key);
 
   @override

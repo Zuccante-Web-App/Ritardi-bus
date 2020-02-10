@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:prova/data_storage/userData.dart';
 import 'package:prova/pages/home.dart';
 import 'package:prova/service/graphicFn.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Registration extends StatefulWidget {
   static const String id = "REGISTRATION";
@@ -14,8 +16,16 @@ class Registration extends StatefulWidget {
 class _RegistrationState extends State<Registration> {
   String email;
   String password;
-
+  String userName;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+   CollectionReference _colec;
+  DocumentReference _documentReference;
+  @override
+  void initState() { 
+    _colec = Firestore.instance.collection('UserData');
+    super.initState();
+    
+  }
 
   Future<void> registerUser() async {
     AuthResult user = await _auth.createUserWithEmailAndPassword(
@@ -23,15 +33,20 @@ class _RegistrationState extends State<Registration> {
       password: password,
     );
     Navigator.of(context, rootNavigator: true).pop();
+    _documentReference = _colec.document(email);
+     _documentReference.setData({
+      "userName": userName,
+    });
+    UserData userData=UserData(userName:userName,user: email);
     Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => Home(user: user.user)));
+        MaterialPageRoute(builder: (context) => Home(user:userData)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:  hexToColor("#0058A5"),
+        backgroundColor: hexToColor("#0058A5"),
         title: Row(
           children: <Widget>[
             Icon(
@@ -51,6 +66,17 @@ class _RegistrationState extends State<Registration> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           SizedBox(
+            height: 20.0,
+          ),
+          TextField(
+            autocorrect: false,
+            onChanged: (value) => userName = value,
+            decoration: InputDecoration(
+              hintText: "Nome utente...",
+              border: const OutlineInputBorder(),
+            ),
+          ),
+            SizedBox(
             height: 20.0,
           ),
           TextField(
@@ -127,9 +153,12 @@ class _LoginState extends State<Login> {
       email: email,
       password: password,
     );
+
     Navigator.of(context, rootNavigator: true).pop();
+    UserData userData=UserData(user:email);
+    userData.userDataFromSnapshot();
     Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => Home(user: user.user)));
+        MaterialPageRoute(builder: (context) => Home(user: userData)));
   }
 
   @override

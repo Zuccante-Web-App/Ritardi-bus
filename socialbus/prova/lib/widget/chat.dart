@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:prova/data_storage/apirutes.dart';
+import 'package:prova/data_storage/userData.dart';
 import 'package:prova/widget/messaggio.dart';
 
 class Chat extends StatefulWidget {
   final APIRoute bus;
-  final FirebaseUser user;
+  final UserData user;
   Chat({Key key, this.bus, this.user}) : super(key: key);
 
   @override
@@ -30,7 +30,6 @@ class _ChatState extends State<Chat> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.user.email);
     TextEditingController _fermataController = TextEditingController();
     TextEditingController _ritardoController = TextEditingController();
     String fermata,ritardo;
@@ -52,7 +51,7 @@ class _ChatState extends State<Chat> {
                             userName: doc.data['user'],
                             fermata: doc.data['fermata'],
                             ritardo:doc.data['ritardo'],
-                            me: doc.data['user'] == widget.user.email
+                            me: doc.data['user'] == widget.user.userName
                                 ? true
                                 : false,
                           );
@@ -113,7 +112,7 @@ class _ChatState extends State<Chat> {
                                 _colec.add({
                                   'ritardo': ritardo,
                                   "fermata": fermata,
-                                  "user": widget.user.email,
+                                  "user": widget.user.userName,
                                   "date": DateTime.now()
                                       .toIso8601String()
                                       .toString(),
