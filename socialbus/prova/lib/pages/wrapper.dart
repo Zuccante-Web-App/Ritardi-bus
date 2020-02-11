@@ -21,7 +21,7 @@ class Wrapper extends StatelessWidget {
                 Stack(
                   children: <Widget>[
                     // Stroked text as border.
- /*                   Text(
+                    /*                   Text(
                       'SocialBus',
                       style: TextStyle(
                       
@@ -34,32 +34,34 @@ class Wrapper extends StatelessWidget {
                       ),
                     ),*/
                     // Solid text as fill.
-                    Text(
-                      'SocialBus',
-                      style: TextStyle(
-                        //fontWeight: FontWeight.bold,
-                        letterSpacing: 5,
-                        fontSize: 40,
-                        color: Colors.grey,
+                    Hero(
+                      tag: "title",
+                      child: Text(
+                        'SocialBus',
+                        style: TextStyle(
+                          //fontWeight: FontWeight.bold,
+                          letterSpacing: 5,
+                          fontSize: 40,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
                   ],
                 )
               ],
             ),
-                 SizedBox(
-              height: MediaQuery.of(context).size.width*0.10,
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.10,
             ),
             Center(
-              
-                child: Container(
-                  width: MediaQuery.of(context).size.width*0.50,
-                  child: Image.asset("assets/image/logo.png"),
-                ),
-              
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.50,
+                child: Hero(
+                    tag: 'logo', child: Image.asset("assets/image/logo.png")),
+              ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.width*0.25,
+              height: MediaQuery.of(context).size.width * 0.25,
             ),
             CustomButton(
               text: "Log In",

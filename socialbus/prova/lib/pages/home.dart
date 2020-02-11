@@ -58,42 +58,47 @@ class _HomeState extends State<Home> {
                 0,
               ),
               //builder di "container_bus da flie json"
-              child: FutureBuilder(
-                future: loadRoutes(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return new GridView.builder(
-                      itemCount: buses.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final List<APIRoute> routes = buses[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      PaginaBus(user: widget.user, bus: routes),
-                                ));
+              child: Stack(
+                children: <Widget>[
+                   Center(child: Hero(tag: 'logo', child: Image.asset("assets/image/logo.png"))),
+                  FutureBuilder(
+                    future: loadRoutes(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return new GridView.builder(
+                          itemCount: buses.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final List<APIRoute> routes = buses[index];
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          PaginaBus(user: widget.user, bus: routes),
+                                    ));
+                              },
+                              child: new ContainerBus(
+                                nomeBus: routes[0].routeShortName,
+                              ),
+                            );
                           },
-                          child: new ContainerBus(
-                            nomeBus: routes[0].routeShortName,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 8.0,
+                            mainAxisSpacing: 5.0,
                           ),
                         );
-                      },
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 8.0,
-                        mainAxisSpacing: 5.0,
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return new Text("${snapshot.error}");
-                  }
-                  return new SpinKitWanderingCubes(
-                    color: Colors.green[700],
-                    size: 50.0,
-                  );
-                },
+                      } else if (snapshot.hasError) {
+                        return new Text("${snapshot.error}");
+                      }
+                      return new SpinKitWanderingCubes(
+                        color: Colors.green[700],
+                        size: 50.0,
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
           ),

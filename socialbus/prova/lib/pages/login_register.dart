@@ -18,13 +18,12 @@ class _RegistrationState extends State<Registration> {
   String password;
   String userName;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-   CollectionReference _colec;
+  CollectionReference _colec;
   DocumentReference _documentReference;
   @override
-  void initState() { 
+  void initState() {
     _colec = Firestore.instance.collection('UserData');
     super.initState();
-    
   }
 
   Future<void> registerUser() async {
@@ -34,12 +33,12 @@ class _RegistrationState extends State<Registration> {
     );
     Navigator.of(context, rootNavigator: true).pop();
     _documentReference = _colec.document(email);
-     _documentReference.setData({
+    _documentReference.setData({
       "userName": userName,
     });
-    UserData userData=UserData(userName:userName,user: email);
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => Home(user:userData)));
+    UserData userData = UserData(userName: userName, user: email);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Home(user: userData)));
   }
 
   @override
@@ -61,75 +60,103 @@ class _RegistrationState extends State<Registration> {
           ],
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Stack(
         children: <Widget>[
-          SizedBox(
-            height: 20.0,
-          ),
-          TextField(
-            autocorrect: false,
-            onChanged: (value) => userName = value,
-            decoration: InputDecoration(
-              hintText: "Nome utente...",
-              border: const OutlineInputBorder(),
+          Center(
+            child: ListView(
+              
+              children: <Widget>[
+                 SizedBox(height: 40,),
+                Center(
+                  child: Text(
+                    'SocialBus',
+                    style: TextStyle(
+                      //fontWeight: FontWeight.bold,
+                      letterSpacing: 5,
+                      fontSize: 40,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                Hero(tag: 'logo', child: Image.asset("assets/image/logo.png")),
+              ],
             ),
           ),
-            SizedBox(
-            height: 20.0,
-          ),
-          TextField(
-            keyboardType: TextInputType.emailAddress,
-            onChanged: (value) => email = value,
-            decoration: InputDecoration(
-              hintText: "Inserisci email...",
-              border: const OutlineInputBorder(),
-            ),
-          ),
-          SizedBox(
-            height: 40.0,
-          ),
-          TextField(
-            autocorrect: false,
-            obscureText: true,
-            onChanged: (value) => password = value,
-            decoration: InputDecoration(
-              hintText: "inserisci Password...",
-              border: const OutlineInputBorder(),
-            ),
-          ),
-          CustomButton(
-            text: "Register",
-            callback: () async {
-              try {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return CupertinoAlertDialog(
-                      title: Text("caricamento log in"),
-                      content: SpinKitWanderingCubes(
-                        color: Colors.green[700],
-                        size: 50.0,
-                      ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(
+                height: 20.0,
+              ),
+              TextField(
+                autocorrect: false,
+                onChanged: (value) => userName = value,
+                decoration: InputDecoration(
+                  hintText: "Nome utente...",
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              TextField(
+                keyboardType: TextInputType.emailAddress,
+                onChanged: (value) => email = value,
+                decoration: InputDecoration(
+                  hintText: "Inserisci email...",
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(
+                height:20.0,
+              ),
+              TextField(
+                autocorrect: false,
+                obscureText: true,
+                onChanged: (value) => password = value,
+                decoration: InputDecoration(
+                  hintText: "inserisci Password...",
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+                SizedBox(
+                height: 40.0,
+              ),
+              CustomButton(
+                text: "Register",
+                callback: () async {
+                  try {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return CupertinoAlertDialog(
+                          title: Text("caricamento log in"),
+                          content: SpinKitWanderingCubes(
+                            color: Colors.green[700],
+                            size: 50.0,
+                          ),
+                        );
+                      },
                     );
-                  },
-                );
-                await registerUser();
-              } catch (e) {
-                Navigator.of(context, rootNavigator: true).pop();
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("$e"),
-                      content: Text(""),
+                    await registerUser();
+                  } catch (e) {
+                    Navigator.of(context, rootNavigator: true).pop();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("$e"),
+                          content: Text(""),
+                        );
+                      },
                     );
-                  },
-                );
-              }
-            },
-          )
+                  }
+                },
+              ),
+               
+            ],
+          ),
         ],
       ),
     );
@@ -155,10 +182,10 @@ class _LoginState extends State<Login> {
     );
 
     Navigator.of(context, rootNavigator: true).pop();
-    UserData userData=UserData(user:email);
+    UserData userData = UserData(user: email);
     userData.userDataFromSnapshot();
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => Home(user: userData)));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Home(user: userData)));
   }
 
   @override
@@ -180,63 +207,89 @@ class _LoginState extends State<Login> {
           ],
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Stack(
         children: <Widget>[
-          SizedBox(
-            height: 40.0,
-          ),
-          TextField(
-            keyboardType: TextInputType.emailAddress,
-            onChanged: (value) => email = value,
-            decoration: InputDecoration(
-              hintText: "Inserisci email...",
-              border: const OutlineInputBorder(),
+          Center(
+            child: ListView(
+              children: <Widget>[
+                SizedBox(height: 40,),
+                Center(
+                  child: Text(
+                    'SocialBus',
+                    style: TextStyle(
+                      //fontWeight: FontWeight.bold,
+                      letterSpacing: 5,
+                      fontSize: 40,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                Hero(tag: 'logo', child: Image.asset("assets/image/logo.png")),
+              ],
             ),
           ),
-          SizedBox(
-            height: 40.0,
-          ),
-          TextField(
-            autocorrect: false,
-            obscureText: true,
-            onChanged: (value) => password = value,
-            decoration: InputDecoration(
-              hintText: "Inserisci Password...",
-              border: const OutlineInputBorder(),
-            ),
-          ),
-          CustomButton(
-            text: "Log In",
-            callback: () async {
-              try {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return CupertinoAlertDialog(
-                      title: Text("caricamento log in"),
-                      content: SpinKitWanderingCubes(
-                        color: Colors.green[700],
-                        size: 50.0,
-                      ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(
+                height: 20.0,
+              ),
+              TextField(
+                keyboardType: TextInputType.emailAddress,
+                onChanged: (value) => email = value,
+                decoration: InputDecoration(
+                  hintText: "Inserisci email...",
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              TextField(
+                autocorrect: false,
+                obscureText: true,
+                onChanged: (value) => password = value,
+                decoration: InputDecoration(
+                  hintText: "Inserisci Password...",
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+                SizedBox(
+                height: 40.0,
+              ),
+              CustomButton(
+                text: "Log In",
+                callback: () async {
+                  try {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return CupertinoAlertDialog(
+                          title: Text("caricamento log in"),
+                          content: SpinKitWanderingCubes(
+                            color: Colors.green[700],
+                            size: 50.0,
+                          ),
+                        );
+                      },
                     );
-                  },
-                );
-                await loginUser();
-              } catch (e) {
-                Navigator.of(context, rootNavigator: true).pop();
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("$e"),
-                      content: Text(""),
+                    await loginUser();
+                  } catch (e) {
+                    Navigator.of(context, rootNavigator: true).pop();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("$e"),
+                          content: Text(""),
+                        );
+                      },
                     );
-                  },
-                );
-              }
-            },
+                  }
+                },
+              ),
+            ],
           ),
         ],
       ),
