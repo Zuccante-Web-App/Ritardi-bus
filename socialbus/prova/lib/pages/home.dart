@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
                     future: loadRoutes(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return new GridView.builder(
+                        return new ListView.builder(
                           itemCount: buses.length,
                           itemBuilder: (BuildContext context, int index) {
                             final List<APIRoute> routes = buses[index];
@@ -80,14 +80,10 @@ class _HomeState extends State<Home> {
                               },
                               child: new ContainerBus(
                                 nomeBus: routes[0].routeShortName,
+                                tratta: routes[0].routeLongName,
                               ),
                             );
                           },
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 8.0,
-                            mainAxisSpacing: 5.0,
-                          ),
                         );
                       } else if (snapshot.hasError) {
                         return new Text("${snapshot.error}");
