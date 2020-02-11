@@ -6,6 +6,7 @@ import 'package:prova/data_storage/userData.dart';
 import 'package:prova/pages/home.dart';
 import 'package:prova/service/graphicFn.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:prova/service/log_reg_Erorr.dart';
 
 class Registration extends StatefulWidget {
   static const String id = "REGISTRATION";
@@ -27,10 +28,14 @@ class _RegistrationState extends State<Registration> {
   }
 
   Future<void> registerUser() async {
+        if(userName==null){
+     throw new Exception("null user");
+    }
     AuthResult user = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
+
     Navigator.of(context, rootNavigator: true).pop();
     _documentReference = _colec.document(email);
     _documentReference.setData({
@@ -146,9 +151,8 @@ class _RegistrationState extends State<Registration> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text("$e"),
-                          content: Text(""),
-                        );
+                          title: Text( regErrorHandler(e.toString()),
+                        ));
                       },
                     );
                   }
@@ -281,7 +285,7 @@ class _LoginState extends State<Login> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text("$e"),
+                          title: Text(logErrorHandler(e.toString())),
                           content: Text(""),
                         );
                       },
