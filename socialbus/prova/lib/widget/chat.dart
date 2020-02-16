@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:prova/data_storage/apirutes.dart';
 import 'package:prova/data_storage/userData.dart';
+import 'package:prova/service/graphicFn.dart';
 import 'package:prova/widget/messaggio.dart';
 
 class Chat extends StatefulWidget {
@@ -32,25 +33,43 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     TextEditingController _fermataController = TextEditingController();
     TextEditingController _ritardoController = TextEditingController();
-    String fermata,ritardo;
+    String fermata, ritardo;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: hexToColor("#0058A5"),
+        title: Row(
+          children: <Widget>[
+            Icon(
+              Icons.directions_bus,
+            ),
+            Text(
+              'SocialBus',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
       body: Column(
         children: <Widget>[
-          Container(
-            child: Text("RITARDI DEL BUS"),
-          ),
           StreamBuilder<QuerySnapshot>(
               stream: _colec.orderBy('date').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Expanded(
                     child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey[400],
+                          border: Border(
+                              bottom:
+                                  BorderSide(color: Colors.black, width: 2))),
                       child: ListView(
                         children: snapshot.data.documents.map((doc) {
                           return Messaggio(
                             userName: doc.data['user'],
                             fermata: doc.data['fermata'],
-                            ritardo:doc.data['ritardo'],
+                            ritardo: doc.data['ritardo'],
                             me: doc.data['user'] == widget.user.userName
                                 ? true
                                 : false,
@@ -67,7 +86,7 @@ class _ChatState extends State<Chat> {
                 }
               }),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
             child: Container(
               child: Material(
                 color: Colors.blue[800],

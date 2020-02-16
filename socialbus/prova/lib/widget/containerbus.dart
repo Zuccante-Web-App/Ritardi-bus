@@ -1,75 +1,101 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
-class ContainerBus extends StatelessWidget {
-  final String nomeBus;
-  final String tratta;
+import 'package:flutter/material.dart';
+import 'package:prova/data_storage/apirutes.dart';
+import 'package:prova/data_storage/userData.dart';
+import 'package:prova/service/orariLauncher.dart';
+import 'package:prova/widget/chat.dart';
+
+class ContainerBus extends StatefulWidget {
+  final List<APIRoute> bus;
+  final UserData user;
   const ContainerBus({
     Key key,
-    this.nomeBus,this.tratta,
+    this.bus,
+    this.user,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-/*    return Padding(
-      padding: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 0.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(width: 2.0,color: Colors.green[700]),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black45,
-              spreadRadius: 2.0,
-              blurRadius: 2.0,
-            )
-          ],
-        ),
-        child: Center(
-          child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
+  _ContainerBusState createState() => _ContainerBusState();
+}
 
-              Center(
-                child: Text(
-                  '$nomeBus',
-                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w900,color: Color.fromRGBO(1, 87, 164, 1)),
+class _ContainerBusState extends State<ContainerBus> {
+  @override
+  Widget build(BuildContext context) {
+    var rng = new Random();
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+        child: Container(
+            height: MediaQuery.of(context).size.height * 0.24,
+            child: Card(
+              shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(15.0),
+  ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20.0, 15, 10, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            widget.bus[0].routeShortName,
+                            style: TextStyle(
+                              fontSize: 30,
+                            ),
+                          ),
+                          IconButton(
+                              icon: Icon(Icons.access_time), onPressed: () {
+                                launcherOrari(widget.bus[0].routeShortName);
+                              })
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.90,
+                        height: MediaQuery.of(context).size.height * 0.80,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: widget.bus.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Chat(
+                                            bus: widget.bus[index],
+                                            user: widget.user)));
+                              },
+                              child: Padding(
+                                   padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
+                                child: Container(
+                                  width: 230,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.blue[(rng.nextInt(8)+1)*100] ,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(10, 10, 0, 5),
+                                    child: Text(
+                                      widget.bus[index].routeLongName,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
-    */
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        0,
-        0,
-        0,
-        8
-      ),
-      child: Container(
-        height: MediaQuery.of(context).size.height*0.20,
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20.0,15,10,0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(nomeBus, style: TextStyle(
-                  fontSize: 30,
-                ),),
-                Text(tratta,
-                style: TextStyle(
-                  fontSize: 20,
-                ),),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+            )));
   }
 }

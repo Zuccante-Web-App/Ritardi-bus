@@ -28,10 +28,10 @@ class _RegistrationState extends State<Registration> {
   }
 
   Future<void> registerUser() async {
-        if(userName==null){
-     throw new Exception("null user");
+    if (userName == null) {
+      throw new Exception("null user");
     }
-    AuthResult user = await _auth.createUserWithEmailAndPassword(
+   await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -53,11 +53,8 @@ class _RegistrationState extends State<Registration> {
         backgroundColor: hexToColor("#0058A5"),
         title: Row(
           children: <Widget>[
-            Icon(
-              Icons.directions_bus,
-            ),
             Text(
-              'SocialBus',
+              'Registrati',
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -65,101 +62,99 @@ class _RegistrationState extends State<Registration> {
           ],
         ),
       ),
-      body: Stack(
+      body: ListView(
         children: <Widget>[
+          SizedBox(
+            height: 40,
+          ),
           Center(
-            child: ListView(
-              
-              children: <Widget>[
-                 SizedBox(height: 40,),
-                Center(
-                  child: Text(
-                    'SocialBus',
-                    style: TextStyle(
-                      //fontWeight: FontWeight.bold,
-                      letterSpacing: 5,
-                      fontSize: 40,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                Hero(tag: 'logo', child: Image.asset("assets/image/logo.png")),
-              ],
+            child: Text(
+              'SocialBus',
+              style: TextStyle(
+                //fontWeight: FontWeight.bold,
+                letterSpacing: 5,
+                fontSize: 40,
+                color: Colors.grey,
+              ),
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              SizedBox(
-                height: 20.0,
-              ),
-              TextField(
-                autocorrect: false,
-                onChanged: (value) => userName = value,
-                decoration: InputDecoration(
-                  hintText: "Nome utente...",
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (value) => email = value,
-                decoration: InputDecoration(
-                  hintText: "Inserisci email...",
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(
-                height:20.0,
-              ),
-              TextField(
-                autocorrect: false,
-                obscureText: true,
-                onChanged: (value) => password = value,
-                decoration: InputDecoration(
-                  hintText: "inserisci Password...",
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-                SizedBox(
-                height: 40.0,
-              ),
-              CustomButton(
-                text: "Register",
-                callback: () async {
-                  try {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return CupertinoAlertDialog(
-                          title: Text("caricamento log in"),
-                          content: SpinKitWanderingCubes(
-                            color: Colors.green[700],
-                            size: 50.0,
-                          ),
-                        );
-                      },
+          SizedBox(
+            height: 60.0,
+          ),
+          Text("Nome utente:"),
+          TextField(
+            autocorrect: false,
+            onChanged: (value) => userName = value,
+            decoration: InputDecoration(
+              hintText: "Inserisci nome...",
+              border: const OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Email:"),
+          ),
+          TextField(
+            keyboardType: TextInputType.emailAddress,
+            onChanged: (value) => email = value,
+            decoration: InputDecoration(
+              hintText: "Inserisci email...",
+              border: const OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Text("Password:"),
+          TextField(
+            autocorrect: false,
+            obscureText: true,
+            onChanged: (value) => password = value,
+            decoration: InputDecoration(
+              hintText: "inserisci Password...",
+              border: const OutlineInputBorder(),
+            ),
+          ),
+          Text(
+            "La password deve avere almeno 6 caratteri",
+            style: TextStyle(fontSize: 12, color: Colors.redAccent),
+          ),
+          SizedBox(
+            height: 40.0,
+          ),
+          CustomButton(
+            text: "Registrati",
+            callback: () async {
+              try {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CupertinoAlertDialog(
+                      title: Text("caricamento log in"),
+                      content: SpinKitWanderingCubes(
+                        color: Colors.green[700],
+                        size: 50.0,
+                      ),
                     );
-                    await registerUser();
-                  } catch (e) {
-                    Navigator.of(context, rootNavigator: true).pop();
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text( regErrorHandler(e.toString()),
-                        ));
-                      },
-                    );
-                  }
-                },
-              ),
-               
-            ],
+                  },
+                );
+                await registerUser();
+              } catch (e) {
+                Navigator.of(context, rootNavigator: true).pop();
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                        title: Text(
+                      regErrorHandler(e.toString()),
+                    ));
+                  },
+                );
+              }
+            },
           ),
         ],
       ),
@@ -180,7 +175,7 @@ class _LoginState extends State<Login> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> loginUser() async {
-    AuthResult user = await _auth.signInWithEmailAndPassword(
+  await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -199,11 +194,8 @@ class _LoginState extends State<Login> {
         backgroundColor: hexToColor("#0058A5"),
         title: Row(
           children: <Widget>[
-            Icon(
-              Icons.directions_bus,
-            ),
             Text(
-              'SocialBus',
+              'Log In',
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -211,89 +203,79 @@ class _LoginState extends State<Login> {
           ],
         ),
       ),
-      body: Stack(
+      body: ListView(
         children: <Widget>[
+          SizedBox(
+            height: 40,
+          ),
           Center(
-            child: ListView(
-              children: <Widget>[
-                SizedBox(height: 40,),
-                Center(
-                  child: Text(
-                    'SocialBus',
-                    style: TextStyle(
-                      //fontWeight: FontWeight.bold,
-                      letterSpacing: 5,
-                      fontSize: 40,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                Hero(tag: 'logo', child: Image.asset("assets/image/logo.png")),
-              ],
+            child: Text(
+              'SocialBus',
+              style: TextStyle(
+                //fontWeight: FontWeight.bold,
+                letterSpacing: 5,
+                fontSize: 40,
+                color: Colors.grey,
+              ),
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              SizedBox(
-                height: 20.0,
-              ),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (value) => email = value,
-                decoration: InputDecoration(
-                  hintText: "Inserisci email...",
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              TextField(
-                autocorrect: false,
-                obscureText: true,
-                onChanged: (value) => password = value,
-                decoration: InputDecoration(
-                  hintText: "Inserisci Password...",
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-                SizedBox(
-                height: 40.0,
-              ),
-              CustomButton(
-                text: "Log In",
-                callback: () async {
-                  try {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return CupertinoAlertDialog(
-                          title: Text("caricamento log in"),
-                          content: SpinKitWanderingCubes(
-                            color: Colors.green[700],
-                            size: 50.0,
-                          ),
-                        );
-                      },
+          SizedBox(
+            height: 80.0,
+          ),
+          Text("Email:"),
+          TextField(
+            keyboardType: TextInputType.emailAddress,
+            onChanged: (value) => email = value,
+            decoration: InputDecoration(
+              hintText: "Inserisci email...",
+              border: const OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          Text("Password:"),
+          TextField(
+            autocorrect: false,
+            obscureText: true,
+            onChanged: (value) => password = value,
+            decoration: InputDecoration(
+              hintText: "Inserisci Password...",
+              border: const OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(
+            height: 100.0,
+          ),
+          CustomButton(
+            text: "Log In",
+            callback: () async {
+              try {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CupertinoAlertDialog(
+                      title: Text("caricamento log in"),
+                      content: SpinKitWanderingCubes(
+                        color: Colors.green[700],
+                        size: 50.0,
+                      ),
                     );
-                    await loginUser();
-                  } catch (e) {
-                    Navigator.of(context, rootNavigator: true).pop();
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text(logErrorHandler(e.toString())),
-                          content: Text(""),
-                        );
-                      },
+                  },
+                );
+                await loginUser();
+              } catch (e) {
+                Navigator.of(context, rootNavigator: true).pop();
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text(logErrorHandler(e.toString())),
                     );
-                  }
-                },
-              ),
-            ],
+                  },
+                );
+              }
+            },
           ),
         ],
       ),
@@ -309,6 +291,7 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.bottomCenter,
       padding: const EdgeInsets.all(8.0),
       child: Material(
         color: Colors.blue[800],

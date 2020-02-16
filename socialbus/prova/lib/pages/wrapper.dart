@@ -18,35 +18,14 @@ class Wrapper extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    // Stroked text as border.
-                    /*                   Text(
-                      'SocialBus',
-                      style: TextStyle(
-                      
-                        letterSpacing: 5,
-                        fontSize: 40,
-                        foreground: Paint()
-                          ..style = PaintingStyle.stroke
-                          ..strokeWidth = 7
-                          ..color = Colors.black,
-                      ),
-                    ),*/
-                    // Solid text as fill.
-                    Hero(
-                      tag: "title",
-                      child: Text(
-                        'SocialBus',
-                        style: TextStyle(
-                          //fontWeight: FontWeight.bold,
-                          letterSpacing: 5,
-                          fontSize: 40,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
+                Text(
+                  'SocialBus',
+                  style: TextStyle(
+                    //fontWeight: FontWeight.bold,
+                    letterSpacing: 5,
+                    fontSize: 40,
+                    color: Colors.grey,
+                  ),
                 )
               ],
             ),
@@ -63,14 +42,16 @@ class Wrapper extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.25,
             ),
+            Text("Hai gia un accaunt:"),
             CustomButton(
               text: "Log In",
               callback: () {
                 Navigator.of(context).pushNamed('/login');
               },
             ),
+            Text("Nuovo utente:"),
             CustomButton(
-              text: "Register",
+              text: "Registrati",
               callback: () {
                 Navigator.of(context).pushNamed('/registration');
               },

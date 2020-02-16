@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:prova/data_storage/apirutes.dart';
 import 'package:prova/data_storage/userData.dart';
-import 'package:prova/pages/pagina_bus.dart';
+import 'package:prova/pages/serchedBus.dart';
 import 'package:prova/service/graphicFn.dart';
 import 'package:prova/widget/containerbus.dart';
 import 'package:prova/widget/menu.dart';
@@ -17,84 +18,117 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-
 class _HomeState extends State<Home> {
+  String _serched = "";
   List<List<APIRoute>> buses = [];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Menu(),
-      appBar: AppBar(
-        backgroundColor:  hexToColor("#0058A5"),
-        title: Row(
-          children: <Widget>[
-            Icon(
-              Icons.directions_bus,
-            ),
-            Text(
-              'SocialBus',
-              style: TextStyle(
-                color: Colors.white,
+    return WillPopScope(
+      onWillPop: () => Future.value(false),
+      child: Scaffold(
+        backgroundColor: Colors.blueAccent,
+        drawer: Menu(),
+        appBar: AppBar(
+          backgroundColor: hexToColor("#0058A5"),
+          title: Row(
+            children: <Widget>[
+              Icon(
+                Icons.directions_bus,
               ),
-            ),
-          ],
-        ),
-      ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          // Box decoration takes a gradient
-          color: Colors.grey[200],
-        ),
-        child: Center(
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.90,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                0,
-                25,
-                0,
-                0,
+              Text(
+                'SocialBus',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
               ),
-              //builder di "container_bus da flie json"
-              child: Stack(
-                children: <Widget>[
-                   Center(child: Hero(tag: 'logo', child: Image.asset("assets/image/logo.png"))),
-                  FutureBuilder(
-                    future: loadRoutes(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return new ListView.builder(
-                          itemCount: buses.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final List<APIRoute> routes = buses[index];
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
+              SizedBox(width: 100),
+              IconButton(
+                icon: Icon(Icons.find_in_page),
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (context) {
+                    return CupertinoAlertDialog(
+                        title: Text("Inserisci Messaggio"),
+                        content: Card(
+                            child: Column(children: <Widget>[
+                          Center(
+                            child: Text("CERCA UN BUS:"),
+                          ),
+                          TextField(
+                              keyboardType: TextInputType.text,
+                              onChanged: (value) => _serched = value,
+                              decoration: InputDecoration(
+                                hintText: "Inserisci nome bus...",
+                                border: const OutlineInputBorder(),
+                              )),
+                         FlatButton(
+                              child: Text("Cerca"),
+                              onPressed: () {
+                               _serched!=""? Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          PaginaBus(user: widget.user, bus: routes),
-                                    ));
-                              },
-                              child: new ContainerBus(
-                                nomeBus: routes[0].routeShortName,
-                                tratta: routes[0].routeLongName,
-                              ),
-                            );
-                          },
+                                        builder: (context) => SerchedBus(
+                                              buses: buses,
+                                              serced: _serched.toUpperCase(),
+                                              user: widget.user,
+                                            ))):Navigator.pop(context);
+                              })
+                        ])));
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            // Box decoration takes a gradient
+            color: Colors.grey[200],
+          ),
+          child: Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.90,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  0,
+                  25,
+                  0,
+                  0,
+                ),
+                //builder di "container_bus da flie json"
+                child: Stack(
+                  children: <Widget>[
+                    Center(
+                        child: Hero(
+                            tag: 'logo',
+                            child: Image.asset("assets/image/logo.png"))),
+                    FutureBuilder(
+                      future: loadRoutes(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return new ListView.builder(
+                            itemCount: buses.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final List<APIRoute> routes = buses[index];
+                              return ContainerBus(
+                                bus: routes,
+                                user: widget.user,
+                              );
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          return new Text("${snapshot.error}");
+                        }
+                        return new SpinKitWanderingCubes(
+                          color: Colors.green[700],
+                          size: 50.0,
                         );
-                      } else if (snapshot.hasError) {
-                        return new Text("${snapshot.error}");
-                      }
-                      return new SpinKitWanderingCubes(
-                        color: Colors.green[700],
-                        size: 50.0,
-                      );
-                    },
-                  ),
-                ],
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -128,6 +162,12 @@ class _HomeState extends State<Home> {
   }
 
   void busSorting(List<APIRoute> busList) {
+    for(int i=0;i<busList.length-1;i++){
+      if(busList[i].routeLongName==busList[i+1].routeLongName){
+      busList.removeAt(i+1);
+      i--;
+      }
+    }
     buses.add(busList);
   }
 
