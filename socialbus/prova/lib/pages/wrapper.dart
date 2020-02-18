@@ -34,7 +34,7 @@ class Wrapper extends StatelessWidget {
                   style: TextStyle(
                     letterSpacing: 5,
                     fontSize: 40,
-                    color: Colors.grey,
+                    color: Colors.white,
                   ),
                 ),
                 SizedBox(

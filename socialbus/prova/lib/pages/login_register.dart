@@ -133,7 +133,7 @@ class _RegistrationState extends State<Registration> {
                   context: context,
                   builder: (BuildContext context) {
                     return CupertinoAlertDialog(
-                      title: Text("caricamento log in"),
+                      title: Text("Log In..."),
                       content: SpinKitWanderingCubes(
                         color: Colors.green[700],
                         size: 50.0,
@@ -197,7 +197,7 @@ class _LoginState extends State<Login> {
             Text(
               'Log In',
               style: TextStyle(
-                color: Colors.white,
+              color: Colors.white,
               ),
             ),
           ],
@@ -248,14 +248,14 @@ class _LoginState extends State<Login> {
             height: 100.0,
           ),
           CustomButton(
-            text: "Log In",
+          text: "Log In",
             callback: () async {
               try {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return CupertinoAlertDialog(
-                      title: Text("caricamento log in"),
+                      title: Text("Registration..."),
                       content: SpinKitWanderingCubes(
                         color: Colors.green[700],
                         size: 50.0,
@@ -301,7 +301,9 @@ class CustomButton extends StatelessWidget {
           onPressed: callback,
           minWidth: 200.0,
           height: 45.0,
-          child: Text(text),
+          child: Text(text, 
+          style: TextStyle(color : Colors.white),
+          ),
         ),
       ),
     );
