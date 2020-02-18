@@ -3,7 +3,9 @@ import 'package:prova/pages/home.dart';
 import 'package:prova/pages/wrapper.dart';
 import 'package:prova/pages/login_register.dart';
 
-void main() => runApp(MaterialApp(
+void main(){
+  runApp(MaterialApp(
+ 
       initialRoute: '/',
       routes: {
         '/': (context) => Wrapper(),
@@ -12,3 +14,4 @@ void main() => runApp(MaterialApp(
         '/registration': (context) => Registration(),
       },
     ));
+}

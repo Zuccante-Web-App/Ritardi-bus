@@ -89,46 +89,36 @@ class _HomeState extends State<Home> {
           ),
           child: Center(
             child: Container(
-              width: MediaQuery.of(context).size.width * 0.90,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  0,
-                  25,
-                  0,
-                  0,
-                ),
-                //builder di "container_bus da flie json"
-                child: Stack(
-                  children: <Widget>[
-                    Center(
-                        child: Hero(
-                            tag: 'logo',
-                            child: Image.asset("assets/image/logo.png"))),
-                    FutureBuilder(
-                      future: loadRoutes(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return new ListView.builder(
-                            itemCount: buses.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final List<APIRoute> routes = buses[index];
-                              return ContainerBus(
-                                bus: routes,
-                                user: widget.user,
-                              );
-                            },
-                          );
-                        } else if (snapshot.hasError) {
-                          return new Text("${snapshot.error}");
-                        }
-                        return new SpinKitWanderingCubes(
-                          color: Colors.green[700],
-                          size: 50.0,
+              child: Stack(
+                children: <Widget>[
+                  Center(
+                      child: Hero(
+                          tag: 'logo',
+                          child: Image.asset("assets/image/logo.png"))),
+                  FutureBuilder(
+                    future: loadRoutes(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return new ListView.builder(
+                          itemCount: buses.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final List<APIRoute> routes = buses[index];
+                            return ContainerBus(
+                              bus: routes,
+                              user: widget.user,
+                            );
+                          },
                         );
-                      },
-                    ),
-                  ],
-                ),
+                      } else if (snapshot.hasError) {
+                        return new Text("${snapshot.error}");
+                      }
+                      return new SpinKitWanderingCubes(
+                        color: Colors.green[700],
+                        size: 50.0,
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
           ),
