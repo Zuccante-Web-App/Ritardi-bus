@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:prova/data_storage/apirutes.dart';
 import 'package:prova/data_storage/userData.dart';
 import 'package:prova/pages/home.dart';
+import 'package:prova/pages/peferiti.dart';
 import 'package:prova/service/graphicFn.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Menu extends StatelessWidget {
   final UserData user;
-  const Menu({Key key, this.user}) : super(key: key);
+  final  List<List<APIRoute>> buses;
+  const Menu({Key key, this.user, this.buses}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +29,15 @@ class Menu extends StatelessWidget {
           
           ListTile(
             leading: Icon(
-              Icons.import_contacts,
+              Icons.star_border,
               color: Colors.grey[700],
               ),
             
-            title: Text('Leggi'),
+            title: Text('Preferiti'),
             onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Home()),
+                  MaterialPageRoute(builder: (context) => PreferedBus(user: user,buses: buses,)),
                 );
               },
           ),

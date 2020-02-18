@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:prova/data_storage/apirutes.dart';
 import 'package:prova/data_storage/userData.dart';
+import 'package:prova/service/addPrefered.dart';
 import 'package:prova/service/orariLauncher.dart';
 import 'package:prova/widget/chat.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ContainerBus extends StatefulWidget {
   final List<APIRoute> bus;
@@ -20,17 +22,33 @@ class ContainerBus extends StatefulWidget {
 }
 
 class _ContainerBusState extends State<ContainerBus> {
+  bool value;
+  @override
+  void initState() {
+    read();
+    super.initState();
+  }
+
+  void read() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = widget.bus[0].routeShortName;
+    setState(() {
+      value = prefs.getBool(key);
+    });
+    print(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     var rng = new Random();
     return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+        padding: const EdgeInsets.fromLTRB(5, 8, 5, 8),
         child: Container(
             height: MediaQuery.of(context).size.height * 0.24,
             child: Card(
               shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(15.0),
-  ),
+                borderRadius: BorderRadius.circular(15.0),
+              ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 15, 10, 0),
                 child: Column(
@@ -46,8 +64,16 @@ class _ContainerBusState extends State<ContainerBus> {
                             ),
                           ),
                           IconButton(
-                              icon: Icon(Icons.access_time), onPressed: () {
+                              icon: Icon(Icons.access_time),
+                              onPressed: () {
                                 launcherOrari(widget.bus[0].routeShortName);
+                              }),
+                          IconButton(
+                              icon:  Icon(value == null
+                                  ? Icons.star_border
+                                  : value ? Icons.star : Icons.star_border),
+                              onPressed: () {
+                                save(widget.bus[0].routeShortName,value);
                               })
                         ],
                       ),
@@ -70,7 +96,8 @@ class _ContainerBusState extends State<ContainerBus> {
                                             user: widget.user)));
                               },
                               child: Padding(
-                                   padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 10, 10),
                                 child: Container(
                                   width: 230,
                                   decoration: BoxDecoration(
@@ -78,7 +105,8 @@ class _ContainerBusState extends State<ContainerBus> {
                                     color: Colors.blue[(rng.nextInt(7)+1)*100] ,
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(10, 10, 0, 5),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(10, 10, 0, 5),
                                     child: Text(
                                       widget.bus[index].routeLongName,
                                       style: TextStyle(
