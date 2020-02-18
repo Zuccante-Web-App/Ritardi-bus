@@ -18,7 +18,7 @@ class Wrapper extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.65,
                 decoration: BoxDecoration(color: hexToColor("#0058A5"))),
             Container(
-              height: 375,
+             height: MediaQuery.of(context).size.height * 0.52,
               margin: EdgeInsets.all(90.0),
               decoration:
                   BoxDecoration(color: Colors.white, shape: BoxShape.circle),
@@ -49,7 +49,7 @@ class Wrapper extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.25,
+                  height: MediaQuery.of(context).size.height * 0.20,
                 ),
                 Text("Hai gia un accaunt:"),
                 CustomButton(
