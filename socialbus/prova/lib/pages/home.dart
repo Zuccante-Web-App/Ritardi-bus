@@ -9,6 +9,11 @@ import 'package:prova/service/graphicFn.dart';
 import 'package:prova/widget/containerbus.dart';
 import 'package:prova/widget/menu.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Home extends StatefulWidget {
   final UserData user;
@@ -19,8 +24,28 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String _serched = "";
   List<List<APIRoute>> buses = [];
+  Icon _searchIcon = Icon(Icons.search);
+  Widget _appBarTitle = Text("SocialBus");
+  List<List<APIRoute>> filteredRoutes = List();
+  String _searchText = "";
+
+  final TextEditingController _filter = TextEditingController();
+  
+  _HomeState() {
+    _filter.addListener(() {
+      if (_filter.text.isEmpty) {
+        setState(() {
+          _searchText = "";
+          filteredRoutes = buses;
+        });
+      } else {
+        setState(() {
+          _searchText = _filter.text;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,58 +53,21 @@ class _HomeState extends State<Home> {
       onWillPop: () => Future.value(false),
       child: Scaffold(
         backgroundColor: Colors.blueAccent,
-        drawer: Menu(user: widget.user,),
+        drawer: Menu(
+          user: widget.user,
+        ),
         appBar: AppBar(
           backgroundColor: hexToColor("#0058A5"),
-          title: Row(
-            children: <Widget>[
-              Icon(
-                Icons.directions_bus,
-              ),
-              Text(
-                'SocialBus',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(width: 100),
-              IconButton(
-                icon: Icon(Icons.find_in_page),
-                onPressed: () => showDialog(
-                  context: context,
-                  builder: (context) {
-                    return CupertinoAlertDialog(
-                        title: Text("Inserisci Messaggio"),
-                        content: Card(
-                            child: Column(children: <Widget>[
-                          Center(
-                            child: Text("CERCA UN BUS:"),
-                          ),
-                          TextField(
-                              keyboardType: TextInputType.text,
-                              onChanged: (value) => _serched = value,
-                              decoration: InputDecoration(
-                                hintText: "Inserisci nome bus...",
-                                border: const OutlineInputBorder(),
-                              )),
-                         FlatButton(
-                              child: Text("Cerca"),
-                              onPressed: () {
-                               _serched!=""? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SerchedBus(
-                                              buses: buses,
-                                              serced: _serched.toUpperCase(),
-                                              user: widget.user,
-                                            ))):Navigator.pop(context);
-                              })
-                        ])));
-                  },
-                ),
-              )
-            ],
-          ),
+          elevation: 0.0,
+          title: _appBarTitle,
+          actions: <Widget>[
+            IconButton(
+              icon: _searchIcon,
+              onPressed: () {
+                _searchPressed();
+              },
+            )
+          ],
         ),
         body: Container(
           width: MediaQuery.of(context).size.width,
@@ -108,6 +96,13 @@ class _HomeState extends State<Home> {
                       future: loadRoutes(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
+                          if (_searchText.isNotEmpty) {
+                            buses = buses
+                                .where((r) => r[0].routeShortName
+                                    .toLowerCase()
+                                    .contains(_searchText.toLowerCase()))
+                                .toList();
+                          }
                           return new ListView.builder(
                             itemCount: buses.length,
                             itemBuilder: (BuildContext context, int index) {
@@ -162,10 +157,10 @@ class _HomeState extends State<Home> {
   }
 
   void busSorting(List<APIRoute> busList) {
-    for(int i=0;i<busList.length-1;i++){
-      if(busList[i].routeLongName==busList[i+1].routeLongName){
-      busList.removeAt(i+1);
-      i--;
+    for (int i = 0; i < busList.length - 1; i++) {
+      if (busList[i].routeLongName == busList[i + 1].routeLongName) {
+        busList.removeAt(i + 1);
+        i--;
       }
     }
     buses.add(busList);
@@ -173,5 +168,29 @@ class _HomeState extends State<Home> {
 
   Future wait(int seconds) {
     return new Future.delayed(Duration(seconds: seconds), () => {});
+  }
+
+  void _searchPressed() {
+    setState(() {
+      if (this._searchIcon.icon == Icons.search) {
+        this._searchIcon = Icon(Icons.close);
+        this._appBarTitle = TextField(
+          style: new TextStyle(color: Colors.white),
+          controller: _filter,
+          autofocus: true,
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.search, color:Colors.white),
+            hintText: "Cerca",
+            hintStyle: TextStyle(color: Colors.white),
+            border: InputBorder.none,
+          ),
+        );
+      } else {
+        this._searchIcon = Icon(Icons.search);
+        this._appBarTitle = Text('SocialBus');
+        //filteredNames = names;
+        _filter.clear();
+      }
+    });
   }
 }

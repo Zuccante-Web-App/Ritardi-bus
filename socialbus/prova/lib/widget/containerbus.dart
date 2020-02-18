@@ -75,7 +75,7 @@ class _ContainerBusState extends State<ContainerBus> {
                                   width: 230,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
-                                    color: Colors.blue[(rng.nextInt(8)+1)*100] ,
+                                    color: Colors.blue[(rng.nextInt(7)+1)*100] ,
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.fromLTRB(10, 10, 0, 5),
