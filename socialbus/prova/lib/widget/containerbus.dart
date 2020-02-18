@@ -22,7 +22,7 @@ class ContainerBus extends StatefulWidget {
 }
 
 class _ContainerBusState extends State<ContainerBus> {
-  bool value = null;
+  bool value;
   @override
   void initState() {
     read();
@@ -42,7 +42,7 @@ class _ContainerBusState extends State<ContainerBus> {
   Widget build(BuildContext context) {
     var rng = new Random();
     return Padding(
-        padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+        padding: const EdgeInsets.fromLTRB(5, 8, 5, 8),
         child: Container(
             height: MediaQuery.of(context).size.height * 0.24,
             child: Card(
@@ -102,8 +102,7 @@ class _ContainerBusState extends State<ContainerBus> {
                                   width: 230,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
-                                    color:
-                                        Colors.blue[(rng.nextInt(8) + 1) * 100],
+                                    color: Colors.blue[(rng.nextInt(7)+1)*100] ,
                                   ),
                                   child: Padding(
                                     padding:
