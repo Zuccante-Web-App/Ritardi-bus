@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
       onWillPop: () => Future.value(false),
       child: Scaffold(
         backgroundColor: Colors.blueAccent,
-        drawer: Menu(),
+        drawer: Menu(user: widget.user,),
         appBar: AppBar(
           backgroundColor: hexToColor("#0058A5"),
           title: Row(

@@ -19,7 +19,7 @@ class Wrapper extends StatelessWidget {
                 decoration: BoxDecoration(color: hexToColor("#0058A5"))),
             Container(
              height: MediaQuery.of(context).size.height * 0.52,
-              margin: EdgeInsets.all(MediaQuery.of(context).size.height * 0.122,),
+              margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.25,),
               decoration:
                   BoxDecoration(color: Colors.white, shape: BoxShape.circle),
             ),
